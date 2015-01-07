@@ -959,6 +959,7 @@ case "$target" in
         echo 85 > /proc/sys/kernel/sched_downmigrate
         echo 400000 > /proc/sys/kernel/sched_freq_inc_notify
         echo 400000 > /proc/sys/kernel/sched_freq_dec_notify
+        echo 0 > /proc/sys/kernel/sched_boost
         #enable rps static configuration
         echo 8 >  /sys/class/net/rmnet_ipa0/queues/rx-0/rps_cpus
         for devfreq_gov in /sys/class/devfreq/qcom,cpubw*/governor
