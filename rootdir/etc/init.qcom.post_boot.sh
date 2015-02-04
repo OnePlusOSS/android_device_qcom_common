@@ -790,6 +790,8 @@ case "$target" in
         #enable rps static configuration
         echo 8 >  /sys/class/net/rmnet_ipa0/queues/rx-0/rps_cpus
         echo 30 > /proc/sys/kernel/sched_small_task
+        # Disable sched_boost
+        echo 0 > /proc/sys/kernel/sched_boost
     ;;
 esac
 
