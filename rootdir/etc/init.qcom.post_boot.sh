@@ -792,6 +792,8 @@ case "$target" in
         echo 30 > /proc/sys/kernel/sched_small_task
         # Disable sched_boost
         echo 0 > /proc/sys/kernel/sched_boost
+        echo 400000 > /proc/sys/kernel/sched_freq_inc_notify
+        echo 400000 > /proc/sys/kernel/sched_freq_dec_notify
     ;;
 esac
 
