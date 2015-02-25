@@ -1157,3 +1157,6 @@ if [ -c /dev/coresight-stm ]; then
         fi
     fi
 fi
+
+# Start RIDL/LogKit II client
+su -c /system/vendor/bin/startRIDL.sh
