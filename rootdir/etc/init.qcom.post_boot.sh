@@ -761,6 +761,19 @@ case "$target" in
         do
             echo -n enable > $mode
         done
+
+	# Disable CPU retention
+	echo 0 > /sys/module/lpm_levels/system/a53/cpu0/retention/idle_enabled
+	echo 0 > /sys/module/lpm_levels/system/a53/cpu1/retention/idle_enabled
+	echo 0 > /sys/module/lpm_levels/system/a53/cpu2/retention/idle_enabled
+	echo 0 > /sys/module/lpm_levels/system/a53/cpu3/retention/idle_enabled
+	echo 0 > /sys/module/lpm_levels/system/a57/cpu4/retention/idle_enabled
+	echo 0 > /sys/module/lpm_levels/system/a57/cpu5/retention/idle_enabled
+
+	# Disable L2 retention
+	echo 0 > /sys/module/lpm_levels/system/a53/a53-l2-retention/idle_enabled
+	echo 0 > /sys/module/lpm_levels/system/a57/a57-l2-retention/idle_enabled
+
         # configure governor settings for little cluster
         echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
         echo 1 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load
