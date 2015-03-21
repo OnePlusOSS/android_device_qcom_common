@@ -27,18 +27,5 @@
 #  IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-add_lunch_combo msm8974-userdebug
-add_lunch_combo msm8610-userdebug
-add_lunch_combo msm8226-userdebug
-add_lunch_combo apq8084-userdebug
-add_lunch_combo mpq8092-userdebug
-add_lunch_combo msm_bronze-userdebug
-add_lunch_combo msm8916_32-userdebug
-add_lunch_combo msm8916_32_512-userdebug
-add_lunch_combo msm8916_32_k64-userdebug
-add_lunch_combo msm8916_64-userdebug
-add_lunch_combo msm8994-userdebug
-add_lunch_combo thulium-userdebug
-add_lunch_combo msm8909-userdebug
-add_lunch_combo msm8909_512-userdebug
 add_lunch_combo msm8992-userdebug
+add_lunch_combo msm8994-userdebug
