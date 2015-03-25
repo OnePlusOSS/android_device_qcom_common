@@ -46,6 +46,9 @@ fi
 # so allow for additional target differentiation based on that
 #
 case $soc_id in
+    "252")
+        target="apq8092"
+    ;;
     "253")
         target="apq8094"
     ;;
@@ -139,7 +142,7 @@ case "$usb_config" in
                         "msm8916")
                             setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb
                         ;;
-                        "apq8094")
+                        "apq8094" | "apq8092")
                             setprop persist.sys.usb.config diag,adb
                         ;;
                         "msm8994" | "msm8992")
