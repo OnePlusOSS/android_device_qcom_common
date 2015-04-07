@@ -1,4 +1,4 @@
-# Copyright (c) 2009-2012, 2014-2015, The Linux Foundation. All rights reserved.
+# Copyright (c) 2009-2012, 2014, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -31,12 +31,8 @@ import init.target.rc
 on early-init
     mount debugfs debugfs /sys/kernel/debug
 
-    insmod /sbin/qcrypto_module.ko
-    insmod /sbin/qdrbg_module.ko
-
 on init
     # Set permissions for persist partition
-    start qfintverify
     mkdir /persist 0771 system system
     # See storage config details at http://source.android.com/tech/storage/
     mkdir /mnt/shell/emulated 0700 shell shell
@@ -108,12 +104,6 @@ on boot
     chmod 2770 /dev/socket/qmux_gps
     mkdir /dev/socket/qmux_nfc 0770 nfc nfc
     chmod 2770 /dev/socket/qmux_nfc
-
-    #Create PERFD deamon related dirs
-    mkdir /data/misc/perfd 0755 root system
-    chmod 2755 /data/misc/perfd
-    mkdir /data/system/perfd 0770 root system
-    chmod 2770 /data/system/perfd
 
     setprop wifi.interface wlan0
 
@@ -294,11 +284,11 @@ on post-fs-data
     #Create a folder for SRS to be able to create a usercfg file
     mkdir /data/data/media 0770 media media
 
-service qfintverify /sbin/qfintverify
-    user root
-    class core
-    seclabel u:r:qfips:s0
-    oneshot
+    #Create PERFD deamon related dirs
+    mkdir /data/misc/perfd 0755 root system
+    chmod 2755 /data/misc/perfd
+    mkdir /data/system/perfd 0770 root system
+    chmod 2770 /data/system/perfd
 
 service qcomsysd /system/bin/qcom-system-daemon
     class main
@@ -329,6 +319,9 @@ on property:sys.boot_completed=1
     write /dev/kmsg "Boot completed "
 
 on property:persist.radio.atfwd.start=false
+    stop atfwd
+
+on property:radio.atfwd.start=false
     stop atfwd
 
 service qcom-debug /system/bin/sh /system/etc/init.qcom.debug.sh
