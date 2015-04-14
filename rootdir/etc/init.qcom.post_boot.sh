@@ -912,6 +912,9 @@ case "$target" in
         echo 40000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time
         echo 80000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/max_freq_hysteresis
         echo 384000 > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+        # insert core_ctl module and use conservative paremeters
+        insmod /system/lib/modules/core_ctl.ko
+        echo 1 > /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
         # restore A57's max
         cat /sys/devices/system/cpu/cpu4/cpufreq/cpuinfo_max_freq > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
         # re-enable thermal and BCL hotplug
@@ -932,18 +935,15 @@ case "$target" in
         do
             echo -n enable > $mode
         done
-        # plugin remaining A57s
-        echo 1 > /sys/devices/system/cpu/cpu5/online
-        echo 1 > /sys/devices/system/cpu/cpu6/online
-        echo 1 > /sys/devices/system/cpu/cpu7/online
+        # enable LPM
         echo 0 > /sys/module/lpm_levels/parameters/sleep_disabled
         # Restore CPU 4 max freq from msm_performance
         echo "4:4294967295 5:4294967295 6:4294967295 7:4294967295" > /sys/module/msm_performance/parameters/cpu_max_freq
         # input boost configuration
         echo 0:1344000 > /sys/module/cpu_boost/parameters/input_boost_freq
         echo 40 > /sys/module/cpu_boost/parameters/input_boost_ms
-        # core_ctl module
-        insmod /system/lib/modules/core_ctl.ko
+        # configure core_ctl module parameters
+        echo 4 > /sys/devices/system/cpu/cpu4/core_ctl/max_cpus
         echo 2 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
         echo 60 > /sys/devices/system/cpu/cpu4/core_ctl/busy_up_thres
         echo 30 > /sys/devices/system/cpu/cpu4/core_ctl/busy_down_thres
