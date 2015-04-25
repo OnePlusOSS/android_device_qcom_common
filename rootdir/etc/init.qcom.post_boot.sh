@@ -847,6 +847,10 @@ case "$target" in
         do
             echo "bw_hwmon" > $devfreq_gov
         done
+        for devfreq_gov in /sys/class/devfreq/qcom,mincpubw*/governor
+        do
+            echo "cpufreq" > $devfreq_gov
+        done
         # Disable sched_boost
         echo 0 > /proc/sys/kernel/sched_boost
     ;;
