@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# Copyright (c) 2012, The Linux Foundation. All rights reserved.
+# Copyright (c) 2012-2015, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -30,18 +30,34 @@
 chown -h root.system /sys/devices/platform/msm_hsusb/gadget/wakeup
 chmod -h 220 /sys/devices/platform/msm_hsusb/gadget/wakeup
 
+# Target as specified in build.prop at compile-time
+target=`getprop ro.board.platform`
+
 # Set platform variables
-if [ -f /sys/devices/soc0/hw_platform ]; then
+if [ -d /sys/devices/soc0 ]; then
     soc_hwplatform=`cat /sys/devices/soc0/hw_platform` 2> /dev/null
+    soc_id=`cat /sys/devices/soc0/soc_id` 2> /dev/null
 else
     soc_hwplatform=`cat /sys/devices/system/soc/soc0/hw_platform` 2> /dev/null
 fi
 
 #
+# soc_id may specify additional chip variants not captured in ro.board.platform
+# so allow for additional target differentiation based on that
+#
+case $soc_id in
+    "252")
+        target="apq8092"
+    ;;
+    "253")
+        target="apq8094"
+    ;;
+esac
+
+#
 # Allow persistent usb charging disabling
 # User needs to set usb charging disabled in persist.usb.chgdisabled
 #
-target=`getprop ro.board.platform`
 usbchgdisabled=`getprop persist.usb.chgdisabled`
 case "$usbchgdisabled" in
     "") ;; #Do nothing here
@@ -85,8 +101,6 @@ for f in /sys/bus/esoc/devices/*; do
 done
 fi
 
-target=`getprop ro.board.platform`
-
 #
 # Allow USB enumeration with default PID/VID
 #
@@ -128,12 +142,11 @@ case "$usb_config" in
                         "msm8916")
                             setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb
                         ;;
+                        "apq8094" | "apq8092")
+                            setprop persist.sys.usb.config diag,adb
+                        ;;
                         "msm8994" | "msm8992")
-                            if [ "$soc_hwplatform" == "Dragon" ]; then
-                               setprop persist.sys.usb.config diag,adb
-                            else
-                               setprop persist.sys.usb.config diag,serial_smd,serial_tty,rmnet_ipa,mass_storage,adb
-                            fi
+                            setprop persist.sys.usb.config diag,serial_smd,serial_tty,rmnet_ipa,mass_storage,adb
                         ;;
                         "msm8909")
                             setprop persist.sys.usb.config diag,serial_smd,rmnet_qti_bam,adb
@@ -222,10 +235,9 @@ esac
 # Add support for exposing lun0 as cdrom in mass-storage
 #
 cdromname="/system/etc/cdrom_install.iso"
-platformver=`cat /sys/devices/soc0/hw_platform`
 case "$target" in
 	"msm8226" | "msm8610" | "msm8916")
-		case $platformver in
+		case $soc_hwplatform in
 			"QRD")
 				echo "mounting usbcdrom lun"
 				echo $cdromname > /sys/class/android_usb/android0/f_mass_storage/rom/file

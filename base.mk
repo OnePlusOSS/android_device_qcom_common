@@ -369,6 +369,7 @@ LIBMEMTRACK += memtrack.msm8994
 LIBMEMTRACK += memtrack.msm8610
 LIBMEMTRACK += memtrack.apq8084
 LIBMEMTRACK += memtrack.mpq8092
+LIBMEMTRACK += memtrack.msm8992
 
 #LIBLIGHTS
 LIBLIGHTS := lights.msm8660
@@ -726,9 +727,6 @@ PRODUCT_PACKAGES += librecovery_updater_msm
 # vcard jar
 PRODUCT_PACKAGES += vcard
 
-# tcpdump for packet capture
-PRODUCT_PACKAGES += tcpdump
-
 # tcmiface for tcm support
 PRODUCT_PACKAGES += tcmiface
 
@@ -739,6 +737,8 @@ PRODUCT_PACKAGES_DEBUG :=
 PRODUCT_COPY_FILES := \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
+    frameworks/native/data/etc/android.hardware.camera.full.xml:system/etc/permissions/android.hardware.camera.full.xml\
+    frameworks/native/data/etc/android.hardware.camera.raw.xml:system/etc/permissions/android.hardware.camera.raw.xml\
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
     frameworks/native/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
@@ -800,4 +800,9 @@ $(call inherit-product, build/target/product/verity.mk)
 #skip boot jars check if QCPATH not available
 ifeq ($(strip $(QCPATH)),)
 SKIP_BOOT_JARS_CHECK := true
+endif
+
+ifeq ($(TARGET_BUILD_VARIANT),user)
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES+= \
+    ro.adb.secure=1
 endif
