@@ -442,7 +442,6 @@ service hci_filter_root /system/bin/wcnss_filter
     class late_start
     user bluetooth
     group bluetooth diag system
-    group bluetooth qcom_diag
     disabled
 
 on property:wc_transport.start_root=true
