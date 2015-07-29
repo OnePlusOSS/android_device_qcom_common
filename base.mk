@@ -624,7 +624,8 @@ ifneq ($(TARGET_USES_AOSP),true)
 PRODUCT_PACKAGES += \
        BluetoothExt \
        BTTestApp \
-       HiddTestApp
+       HiddTestApp \
+       a4wpservice
 endif
 
 PRODUCT_PACKAGES += $(ALSA_HARDWARE)
