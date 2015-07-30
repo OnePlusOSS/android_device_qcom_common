@@ -143,6 +143,7 @@ FASTPOWERON := FastBoot
 #FM
 FM := qcom.fmradio
 FM += libqcomfm_jni
+FM += libfmjni
 
 #GPS
 GPS_HARDWARE := gps.conf
@@ -556,6 +557,7 @@ PRODUCT_PACKAGES := \
     IM \
     VoiceDialer \
     FM2 \
+    FMRadio \
     FMRecord \
     VideoEditor
 
