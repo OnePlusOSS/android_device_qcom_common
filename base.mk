@@ -632,7 +632,9 @@ PRODUCT_PACKAGES += \
        BluetoothExt \
        BTTestApp \
        HiddTestApp \
-       a4wpservice
+       a4wpservice \
+       BTLogKit \
+       BTLogSave
 endif
 
 PRODUCT_PACKAGES += $(ALSA_HARDWARE)
