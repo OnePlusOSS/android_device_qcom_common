@@ -581,6 +581,9 @@ VT_JNI += libimscamera_jni
 # VT QTI Permissions
 VT_QTI_PERMISSIONS := qti_permissions.xml
 
+#IMS Extension module for Android Telephony
+IMS_EXT := ims-ext-common
+
 #CRDA
 CRDA := crda
 CRDA += regdbdump
@@ -719,6 +722,7 @@ PRODUCT_PACKAGES += $(CRDA)
 PRODUCT_PACKAGES += $(WLAN)
 PRODUCT_PACKAGES += $(IPACM)
 PRODUCT_PACKAGES += $(IMS_SETTINGS)
+PRODUCT_PACKAGES += $(IMS_EXT)
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
