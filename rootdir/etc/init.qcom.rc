@@ -88,8 +88,6 @@ on boot
     chmod 2770 /dev/socket/qmux_gps
 
     #Create PERFD deamon related dirs
-    mkdir /data/misc/perfd 0755 root system
-    chmod 2755 /data/misc/perfd
     mkdir /data/system/perfd 0770 root system
     chmod 2770 /data/system/perfd
     mkdir /persist/drm 0770 system system
@@ -290,6 +288,12 @@ service usbhub_init /system/bin/usbhub_init
     mkdir /data/misc/SelfHost/storage/ 0700 system shell
     mkdir /data/misc/SelfHost/Running/ 2750 system shell
     mkdir /data/misc/SelfHost/socket/ 2770 system system
+
+service mpdecision /system/bin/mpdecision
+    class main
+    user root
+    disabled
+    socket perfd seqpacket 0666 root system
 
 service qcomsysd /system/bin/qcom-system-daemon
     class main
