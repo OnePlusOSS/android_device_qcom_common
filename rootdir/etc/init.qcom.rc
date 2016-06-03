@@ -111,6 +111,8 @@ on boot
 
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
+    chown system system /system/bin/laser_init
+    chmod 0750 /system/bin/laser_init
 
 #   Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
@@ -177,6 +179,21 @@ on boot
     write /data/misc/radio/copy_complete 0
     chown radio radio /data/misc/radio/copy_complete
     chmod 0660 /data/misc/radio/copy_complete
+	
+	# Add fingerprint
+    chmod -h 777 /dev/qseecom
+    chmod 0664 /sys/bus/spi/devices/spi12.0/irq
+    chown system system /sys/bus/spi/devices/spi12.0/irq
+    chmod 0660 /sys/bus/spi/devices/spi12.0/report_home
+    chown system system /sys/bus/spi/devices/spi12.0/report_home
+    chmod 0660 /sys/devices/soc/soc:fpc_fpc1020/update_info
+    chown system system /sys/devices/soc/soc:fpc_fpc1020/update_info
+    chmod 0660 /sys/bus/spi/devices/spi12.0/screen_state
+    chown system system /sys/bus/spi/devices/spi12.0/screen_state
+    chmod 0660 /sys/bus/spi/devices/spi12.0/clk_enable
+    chown system system /sys/bus/spi/devices/spi12.0/clk_enable
+    #chmod 0660 /sys/bus/spi/devices/spi12.0/wakeup_enable
+    #chown system system /sys/bus/spi/devices/spi12.0/wakeup_enable
 
 # msm specific files that need to be created on /data
 on post-fs-data
@@ -293,6 +310,12 @@ on post-fs-data
     mkdir /data/misc/SelfHost/storage/ 0700 system shell
     mkdir /data/misc/SelfHost/Running/ 2750 system shell
     mkdir /data/misc/SelfHost/socket/ 2770 system system
+	
+	# Add fingerprint
+    mkdir /data/fpc_images 0770 system system
+    mkdir /data/fpc_images/verify 0770 system system
+    mkdir /data/fpc_images/enroll 0770 system system
+    mkdir /data/fpc 0770 system system
 
 service qfintverify /sbin/qfintverify
     user root
@@ -968,3 +991,9 @@ service RIDL /system/vendor/bin/RIDLClient.exe
     group system inet log sdcard_r sdcard_rw qcom_diag
     # removed for security team - misc bluetooth radio gps wifi diag media_rw
     # limited to 12 groups.  Unused: audio usb net_bt_admin net_bt_stac net_raw net_admin
+
+service laserinit /system/bin/laser_init
+    class late_start
+    user root
+    group root
+    oneshot
