@@ -552,7 +552,6 @@ MM_VIDEO := ast-mm-vdec-omx-test
 MM_VIDEO += liblasic
 MM_VIDEO += libOmxVdec
 MM_VIDEO += libOmxVdecHevc
-MM_VIDEO += libOmxVdpp
 MM_VIDEO += libOmxVenc
 MM_VIDEO += libOmxVidEnc
 MM_VIDEO += libOmxSwVdec
@@ -862,6 +861,8 @@ PRODUCT_PACKAGES += libhealthd.msm
 #intialise PRODUCT_PACKAGES_DEBUG list for debug modules
 PRODUCT_PACKAGES_DEBUG := init.qcom.testscripts.sh
 
+#Add init.qcom.test.rc to PRODUCT_PACKAGES_DEBUG list
+PRODUCT_PACKAGES_DEBUG += init.qcom.test.rc
 
 #NANOPB_LIBRARY_NAME := libnanopb-c-2.8.0
 

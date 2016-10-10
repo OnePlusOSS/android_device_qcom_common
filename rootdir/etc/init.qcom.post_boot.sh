@@ -1334,18 +1334,7 @@ case "$target" in
         fi
 
         case "$soc_id" in
-           "320")
-                  # Start Host based Touch processing
-                  case "$hw_platform" in
-                    "MTP" | "Surf" | "RCM" )
-                       start hbtp
-                       ;;
-                  esac
-                  ;;
-        esac
-
-        case "$soc_id" in
-           "303" | "307" | "308" | "309" )
+           "303" | "307" | "308" | "309" | "320" )
 
                   # Start Host based Touch processing
                   case "$hw_platform" in
@@ -1353,7 +1342,7 @@ case "$target" in
                         start hbtp
                         ;;
                   esac
-                # Apply Scheduler and Governor settings for 8917
+                # Apply Scheduler and Governor settings for 8917 / 8920
 
                 # HMP scheduler settings
                 echo 3 > /proc/sys/kernel/sched_window_stats_policy
@@ -2030,7 +2019,6 @@ case "$target" in
 		echo N > /sys/module/lpm_levels/system/perf/perf-l2-dynret/idle_enabled
 		echo N > /sys/module/lpm_levels/system/perf/perf-l2-ret/idle_enabled
 		#Enable all LPMs by default
-		echo N > /sys/module/lpm_levels/parameters/sleep_disabled
 	fi
 
 	echo 2 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
@@ -2130,6 +2118,7 @@ case "$target" in
 		esac
 	    ;;
 	esac
+	echo N > /sys/module/lpm_levels/parameters/sleep_disabled
     ;;
 esac
 
