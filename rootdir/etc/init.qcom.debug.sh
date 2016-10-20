@@ -541,6 +541,12 @@ enable_msmcobalt_core_hang_config()
     #echo 0x1 > /sys/devices/system/cpu/hang_detect/enable
 }
 
+enable_msmcobalt_osm_wdog_status_config()
+{
+    echo 1 > /sys/kernel/debug/osm/pwrcl_clk/wdog_trace_enable
+    echo 1 > /sys/kernel/debug/osm/perfcl_clk/wdog_trace_enable
+}
+
 enable_msmcobalt_gladiator_hang_config()
 {
     GLADIATOR_PATH="/sys/devices/system/cpu/gladiator_hang_detect"
@@ -560,6 +566,18 @@ enable_msmcobalt_gladiator_hang_config()
     #echo 0x1 > /sys/devices/system/cpu/gladiator_hang_detect/enable
 }
 
+enable_osm_wdog_status_config()
+{
+    target=`getprop ro.board.platform`
+
+    case "$target" in
+        "msmcobalt")
+            echo "Enabling OSM WDOG status registers for msmcobalt"
+            enable_msmcobalt_osm_wdog_status_config
+        ;;
+    esac
+}
+
 enable_core_gladiator_hang_config()
 {
     target=`getprop ro.board.platform`
@@ -577,6 +595,7 @@ coresight_config=`getprop persist.debug.coresight.config`
 
 enable_dcc_config
 enable_core_gladiator_hang_config
+enable_osm_wdog_status_config
 
 case "$coresight_config" in
     "stm-events")
