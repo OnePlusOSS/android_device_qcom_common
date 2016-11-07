@@ -541,8 +541,8 @@ enable_msmcobalt_core_hang_config()
     echo 0x2a300 > $CORE_PATH_GOLD/threshold
 
     #To the enable core hang detection
-    #echo 0x1 > /sys/devices/system/cpu/hang_detect_silver/enable
-    #echo 0x1 > /sys/devices/system/cpu/hang_detect_gold/enable
+    echo 0x1 > /sys/devices/system/cpu/hang_detect_silver/enable
+    echo 0x1 > /sys/devices/system/cpu/hang_detect_gold/enable
 }
 
 enable_msmcobalt_gladiator_hang_config()
