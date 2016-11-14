@@ -2101,12 +2101,30 @@ case "$target" in
 		hw_platform=`cat /sys/devices/system/soc/soc0/hw_platform`
 	fi
 
+	if [ -f /sys/devices/soc0/platform_subtype_id ]; then
+		 platform_subtype_id=`cat /sys/devices/soc0/platform_subtype_id`
+	fi
+
 	case "$soc_id" in
 		"292") #msmcobalt
 		# Start Host based Touch processing
 		case "$hw_platform" in
 		"QRD")
 			start hbtp
+			;;
+		"Surf")
+			case "$platform_subtype_id" in
+				"1")
+					start hbtp
+				;;
+			esac
+			;;
+		"MTP")
+			case "$platform_subtype_id" in
+				"2")
+					start hbtp
+				;;
+			esac
 			;;
 		esac
 	    ;;
