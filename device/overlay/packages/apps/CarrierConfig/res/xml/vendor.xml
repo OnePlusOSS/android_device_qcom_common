@@ -67,6 +67,9 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="show_call_session_event_toast" value="true"/>
         <!-- Config to show/hide data usage toast -->
         <boolean name="show_data_usage_toast" value="true"/>
+        <!-- Config that controls whether to stop video preview video and show static image
+             in video preview or not -->
+        <boolean name="transmit_static_image" value="false"/>
         <!-- Config to indicate if dtmf tone type is enabled -->
         <boolean name="dtmf_type_enabled_bool" value="true" />
     </carrier_config>
@@ -84,6 +87,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -98,6 +102,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -112,6 +117,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -126,6 +132,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -140,6 +147,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -154,6 +162,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -168,6 +177,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -182,6 +192,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -196,6 +207,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -210,6 +222,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -224,6 +237,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -238,6 +252,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -252,6 +267,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -266,6 +282,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -280,6 +297,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -294,6 +312,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -308,6 +327,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -322,6 +342,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -336,6 +357,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -350,6 +372,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -364,6 +387,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
@@ -378,6 +402,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="config_hide_preview_in_vt_confcall" value="true" />
         <boolean name="config_carrier_specific_network_type_display" value="true"/>
         <boolean name="remove_modify_call_capability" value="true" />
+        <boolean name="transmit_static_image" value="true"/>
         <boolean name="config_dds_switch_alert_dialog_supported" value="true"/>
         <boolean name="show_video_quality_toast" value="false"/>
         <boolean name="show_call_session_event_toast" value="false"/>
