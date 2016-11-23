@@ -39,6 +39,11 @@ enable_stm_events()
     then
         return
     fi
+    #bail out if coresight-stm device node isn't present
+    if [ ! -d /dev/coresight-stm ]
+    then
+        return
+    fi
     # bail out if ftrace events aren't present
     if [ ! -d /sys/kernel/debug/tracing/events ]
     then
