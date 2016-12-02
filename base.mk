@@ -183,12 +183,6 @@ CONNECTIVITY += services-ext
 CURL := libcurl
 CURL += curl
 
-#DASH
-DASH := libdashplayer
-DASH += libqcmediaplayer
-DASH += qcmediaplayer
-DASH += libextmedia_jni
-
 #EXTENDEDMEDIA_EXT
 EXTENDEDMEDIA_EXT := libextendedmediaextractor
 EXTENDEDMEDIA_EXT += libextendedmediaextractor_jni
@@ -581,6 +575,7 @@ NQ_NFC += libnfc-nxp_default.conf
 NQ_NFC += nqnfcee_access.xml
 NQ_NFC += nqnfcse_access.xml
 NQ_NFC += Tag
+NQ_NFC += nqnfcinfo
 NQ_NFC += com.android.nfc_extras
 
 #OPENCORE
@@ -765,7 +760,6 @@ PRODUCT_PACKAGES += $(RCS)
 PRODUCT_PACKAGES += $(CONNECTIVITY)
 PRODUCT_PACKAGES += $(CHARGER)
 PRODUCT_PACKAGES += $(CURL)
-PRODUCT_PACKAGES += $(DASH)
 PRODUCT_PACKAGES += $(DATA_OS)
 PRODUCT_PACKAGES += $(E2FSPROGS)
 PRODUCT_PACKAGES += $(EBTABLES)

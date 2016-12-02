@@ -305,9 +305,6 @@ on post-fs-data
 
     setprop vold.post_fs_data_done 1
 
-    #Create a folder for SRS to be able to create a usercfg file
-    mkdir /data/data/media 0770 media media
-
     #Create FM dir for patchdownloader
     mkdir /data/misc/fm 0770 system system
     chmod 0770 /data/misc/fm
@@ -366,6 +363,11 @@ on post-fs-data
     write /sys/block/dm-0/queue/read_ahead_kb 2048
     write /sys/block/dm-1/queue/read_ahead_kb 2048
 
+service nqnfcinfo /system/vendor/bin/nqnfcinfo
+    class late_start
+    group nfc
+    user system
+    oneshot
 
 service perfd /system/vendor/bin/perfd
    class main
@@ -537,7 +539,7 @@ service start_hci_filter /system/bin/wcnss_filter
 service fmhal_service /system/bin/fmhal_service
     class late_start
     user bluetooth
-    group bluetooth net_bt_admin net_admin
+    group bluetooth net_bt_admin
     disabled
 
 service config_bt_addr /system/bin/btnvtool -O
@@ -1164,3 +1166,6 @@ on property:ro.logdumpd.enabled=1
 
 on property:vold.decrypt=trigger_restart_min_framework
     start time_daemon
+
+on property:vold.decrypt=trigger_restart_framework
+    restart time_daemon

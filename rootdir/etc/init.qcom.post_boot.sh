@@ -2014,6 +2014,8 @@ case "$target" in
 	echo 1 > /proc/sys/kernel/sched_migration_fixup
 	echo 95 > /proc/sys/kernel/sched_upmigrate
 	echo 90 > /proc/sys/kernel/sched_downmigrate
+	echo 100 > /proc/sys/kernel/sched_group_upmigrate
+	echo 95 > /proc/sys/kernel/sched_group_downmigrate
 	echo 0 > /proc/sys/kernel/sched_select_prev_cpu_us
 	echo 400000 > /proc/sys/kernel/sched_freq_inc_notify
 	echo 400000 > /proc/sys/kernel/sched_freq_dec_notify
@@ -2101,12 +2103,30 @@ case "$target" in
 		hw_platform=`cat /sys/devices/system/soc/soc0/hw_platform`
 	fi
 
+	if [ -f /sys/devices/soc0/platform_subtype_id ]; then
+		 platform_subtype_id=`cat /sys/devices/soc0/platform_subtype_id`
+	fi
+
 	case "$soc_id" in
 		"292") #msm8998
 		# Start Host based Touch processing
 		case "$hw_platform" in
 		"QRD")
 			start hbtp
+			;;
+		"Surf")
+			case "$platform_subtype_id" in
+				"1")
+					start hbtp
+				;;
+			esac
+			;;
+		"MTP")
+			case "$platform_subtype_id" in
+				"2")
+					start hbtp
+				;;
+			esac
 			;;
 		esac
 	    ;;

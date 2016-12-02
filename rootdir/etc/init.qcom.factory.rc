@@ -50,19 +50,19 @@ on mmi
     mkdir /cache/FTM_AP 0750 root root
 
     #Start the following services needed for fftm
+    start servicemanager
+    start surfaceflinger
+    start fastmmi
     start qcom-usb-sh
     start logd
     start debuggerd
     start debuggerd64
-    start servicemanager
-    start surfaceflinger
     start per_mgr
     start qcom-sh
     start ril-daemon
     start config_bluetooth
     start sensors
     start media
-    start fastmmi
     start wcnss-service
     start qcom-post-boot
     start rmt_storage
@@ -72,6 +72,7 @@ on mmi
     start qcomsysd
     start ptt_ffbm
     start tftp_server
+    start cnss-daemon
 
 on ffbm
     trigger early-fs

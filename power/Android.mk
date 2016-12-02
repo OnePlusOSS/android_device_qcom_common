@@ -47,12 +47,17 @@ ifeq ($(call is-board-platform-in-list,msm8953), true)
 LOCAL_SRC_FILES += power-8953.c
 endif
 
+ifeq ($(call is-board-platform-in-list,msm8998), true)
+LOCAL_SRC_FILES += power-8998.c
+endif
+
 ifeq ($(TARGET_USES_INTERACTION_BOOST),true)
     LOCAL_CFLAGS += -DINTERACTION_BOOST
 endif
 
 LOCAL_MODULE := power.qcom
 LOCAL_MODULE_TAGS := optional
+LOCAL_CFLAGS := -Wno-unused-parameter -Wno-unused-variable
 include $(BUILD_SHARED_LIBRARY)
 
 endif

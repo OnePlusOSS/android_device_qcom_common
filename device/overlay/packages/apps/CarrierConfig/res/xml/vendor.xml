@@ -67,7 +67,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="show_call_session_event_toast" value="true"/>
         <!-- Config to show/hide data usage toast -->
         <boolean name="show_data_usage_toast" value="true"/>
-
+        <!-- Config to indicate if dtmf tone type is enabled -->
+        <boolean name="dtmf_type_enabled_bool" value="true" />
     </carrier_config>
 
     <carrier_config mcc="222" mnc="01">
@@ -430,6 +431,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
         <boolean name="ascii_7_bit_support_for_long_message" value="true" />
         <boolean name="cdma_cw_cf_enabled_bool" value="true" />
         <boolean name="allow_emergency_numbers_in_call_log_bool" value="true"/>
+        <boolean name="config_show_orig_dial_string_for_cdma" value="true" />
     </carrier_config>
 
     <carrier_config mcc="460" mnc="04">
@@ -438,7 +440,6 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.-->
 
     <carrier_config mcc="460" mnc="05">
         <boolean name="allow_emergency_numbers_in_call_log_bool" value="true"/>
-        <boolean name="config_show_orig_dial_string_for_cdma" value="true" />
     </carrier_config>
 
     <carrier_config mcc="460" mnc="06">
