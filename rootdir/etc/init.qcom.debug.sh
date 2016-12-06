@@ -131,7 +131,7 @@ enable_stm_events()
 }
 
 # Function MSMCOBALT DCC configuration
-enable_msmcobalt_dcc_config()
+enable_msm8998_dcc_config()
 {
     DCC_PATH="/sys/bus/platform/devices/10b3000.dcc"
     if [ ! -d $DCC_PATH ]; then
@@ -502,9 +502,9 @@ enable_dcc_config()
             enable_msm8996_dcc_config
             ;;
 
-	"msmcobalt")
-	    echo "Enabling DCC config for msmcobalt."
-	    enable_msmcobalt_dcc_config
+	"msm8998")
+	    echo "Enabling DCC config for msm8998."
+	    enable_msm8998_dcc_config
 	    ;;
 
         "msm8953")
@@ -523,25 +523,35 @@ enable_dcc_config()
     esac
 }
 
-enable_msmcobalt_core_hang_config()
+enable_msm8998_core_hang_config()
 {
-    CORE_PATH="/sys/devices/system/cpu/hang_detect"
+    CORE_PATH_SILVER="/sys/devices/system/cpu/hang_detect_silver"
+    CORE_PATH_GOLD="/sys/devices/system/cpu/hang_detect_gold"
     if [ ! -d $CORE_PATH ]; then
         echo "CORE hang does not exist on this build."
         return
     fi
 
     #select instruction retire as the pmu event
-    echo 0x7 > $CORE_PATH/pmu_event_sel
+    echo 0x7 > $CORE_PATH_SILVER/pmu_event_sel
+    echo 0xA > $CORE_PATH_GOLD/pmu_event_sel
 
-    #set the threshold to around 0.5 second
-    echo 0x000f4240 > $CORE_PATH/threshold
+    #set the threshold to around 9 milli-second
+    echo 0x2a300 > $CORE_PATH_SILVER/threshold
+    echo 0x2a300 > $CORE_PATH_GOLD/threshold
 
     #To the enable core hang detection
-    #echo 0x1 > /sys/devices/system/cpu/hang_detect/enable
+    #echo 0x1 > /sys/devices/system/cpu/hang_detect_silver/enable
+    #echo 0x1 > /sys/devices/system/cpu/hang_detect_gold/enable
 }
 
-enable_msmcobalt_gladiator_hang_config()
+enable_msm8998_osm_wdog_status_config()
+{
+    echo 1 > /sys/kernel/debug/osm/pwrcl_clk/wdog_trace_enable
+    echo 1 > /sys/kernel/debug/osm/perfcl_clk/wdog_trace_enable
+}
+
+enable_msm8998_gladiator_hang_config()
 {
     GLADIATOR_PATH="/sys/devices/system/cpu/gladiator_hang_detect"
     if [ ! -d $GLADIATOR_PATH ]; then
@@ -549,15 +559,27 @@ enable_msmcobalt_gladiator_hang_config()
         return
     fi
 
-    #set the threshold to around 0.5 second
-    echo 0x000f4240 > $GLADIATOR_PATH/ace_threshold
-    echo 0x000f4240 > $GLADIATOR_PATH/io_threshold
-    echo 0x000f4240 > $GLADIATOR_PATH/m1_threshold
-    echo 0x000f4240 > $GLADIATOR_PATH/m2_threshold
-    echo 0x000f4240 > $GLADIATOR_PATH/pcio_threshold
+    #set the threshold to around 9 milli-second
+    echo 0x0002a300 > $GLADIATOR_PATH/ace_threshold
+    echo 0x0002a300 > $GLADIATOR_PATH/io_threshold
+    echo 0x0002a300 > $GLADIATOR_PATH/m1_threshold
+    echo 0x0002a300 > $GLADIATOR_PATH/m2_threshold
+    echo 0x0002a300 > $GLADIATOR_PATH/pcio_threshold
 
     #To enable gladiator hang detection
     #echo 0x1 > /sys/devices/system/cpu/gladiator_hang_detect/enable
+}
+
+enable_osm_wdog_status_config()
+{
+    target=`getprop ro.board.platform`
+
+    case "$target" in
+        "msm8998")
+            echo "Enabling OSM WDOG status registers for msm8998"
+            enable_msm8998_osm_wdog_status_config
+        ;;
+    esac
 }
 
 enable_core_gladiator_hang_config()
@@ -565,23 +587,33 @@ enable_core_gladiator_hang_config()
     target=`getprop ro.board.platform`
 
     case "$target" in
-        "msmcobalt")
-            echo "Enabling core & gladiator config for msmcobalt"
-            enable_msmcobalt_core_hang_config
-            enable_msmcobalt_gladiator_hang_config
+        "msm8998")
+            echo "Enabling core & gladiator config for msm8998"
+            enable_msm8998_core_hang_config
+            enable_msm8998_gladiator_hang_config
         ;;
     esac
 }
 
 coresight_config=`getprop persist.debug.coresight.config`
+coresight_stm_cfg_done=`getprop ro.dbg.coresight.stm_cfg_done`
+
+#Android turns off tracing by default. Make sure tracing is turned on after boot is done
+if [ ! -z $coresight_stm_cfg_done ]
+then
+    echo 1 > /sys/kernel/debug/tracing/tracing_on
+    exit
+fi
 
 enable_dcc_config
 enable_core_gladiator_hang_config
+enable_osm_wdog_status_config
 
 case "$coresight_config" in
     "stm-events")
         echo "Enabling STM events."
         enable_stm_events
+        setprop ro.dbg.coresight.stm_cfg_done 1
         ;;
     *)
         echo "Skipping coresight configuration."
