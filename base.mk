@@ -18,7 +18,7 @@ QCOM_BOARD_PLATFORMS += msm8996
 QCOM_BOARD_PLATFORMS += msm8952
 QCOM_BOARD_PLATFORMS += msm8937
 QCOM_BOARD_PLATFORMS += msm8953
-QCOM_BOARD_PLATFORMS += msmcobalt
+QCOM_BOARD_PLATFORMS += msm8998
 QCOM_BOARD_PLATFORMS += msmfalcon
 QCOM_BOARD_PLATFORMS += msmskunk
 
@@ -27,10 +27,10 @@ QSD8K_BOARD_PLATFORMS := qsd8k
 TARGET_USE_VENDOR_CAMERA_EXT := true
 
 #List of targets that use video hw
-MSM_VIDC_TARGET_LIST := msm8974 msm8610 msm8226 apq8084 msm8916 msm8994 msm8909 msm8992 msm8996 msm8952 msm8937 msm8953 msmcobalt msmfalcon msmskunk
+MSM_VIDC_TARGET_LIST := msm8974 msm8610 msm8226 apq8084 msm8916 msm8994 msm8909 msm8992 msm8996 msm8952 msm8937 msm8953 msm8998 msmfalcon msmskunk
 
 #List of targets that use master side content protection
-MASTER_SIDE_CP_TARGET_LIST := msm8996 msmcobalt
+MASTER_SIDE_CP_TARGET_LIST := msm8996 msm8998
 
 # Below projects/packages with LOCAL_MODULEs will be used by
 # PRODUCT_PACKAGES to build LOCAL_MODULEs that are tagged with
@@ -101,7 +101,7 @@ AUDIO_HARDWARE += audio.primary.msm8952
 AUDIO_HARDWARE += audio.primary.msm8937
 AUDIO_HARDWARE += audio.primary.msm8953
 AUDIO_HARDWARE += audio.primary.msmgold
-AUDIO_HARDWARE += audio.primary.msmcobalt
+AUDIO_HARDWARE += audio.primary.msm8998
 #
 AUDIO_POLICY := audio_policy.mpq8064
 AUDIO_POLICY += audio_policy.apq8084
@@ -154,6 +154,8 @@ BT += libattrib_static
 BT += hcidump.sh
 BT += libbt-vendor
 BT += libbthost_if
+BT += libbt-logClient
+BT += bt_logger
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/qcom/common
 
 #C2DColorConvert
@@ -281,7 +283,6 @@ INIT += enable_swap.sh
 INIT += init.mdm.sh
 INIT += init.qcom.uicc.sh
 INIT += fstab.qcom
-INIT += init.qcom.debug.sh
 INIT += init.qcom.sensors.sh
 
 #IPROUTE2
@@ -360,7 +361,7 @@ LIBCAMERA += camera.msm8916
 LIBCAMERA += camera.msm8994
 LIBCAMERA += camera.msm8992
 LIBCAMERA += camera.msm8996
-LIBCAMERA += camera.msmcobalt
+LIBCAMERA += camera.msm8998
 LIBCAMERA += camera.msmfalcon
 LIBCAMERA += camera.msm8952
 LIBCAMERA += camera.msm8937
@@ -397,7 +398,7 @@ LIBCOPYBIT += copybit.msm8996
 LIBCOPYBIT += copybit.msm8952
 LIBCOPYBIT += copybit.msm8937
 LIBCOPYBIT += copybit.msm8953
-LIBCOPYBIT += copybit.msmcobalt
+LIBCOPYBIT += copybit.msm8998
 
 #LIBGESTURES
 LIBGESTURES := libgestures
@@ -426,7 +427,7 @@ LIBGRALLOC += gralloc.msm8996
 LIBGRALLOC += gralloc.msm8952
 LIBGRALLOC += gralloc.msm8937
 LIBGRALLOC += gralloc.msm8953
-LIBGRALLOC += gralloc.msmcobalt
+LIBGRALLOC += gralloc.msm8998
 LIBGRALLOC += libmemalloc
 
 #memtrack
@@ -443,7 +444,7 @@ LIBMEMTRACK += memtrack.msm8996
 LIBMEMTRACK += memtrack.msm8952
 LIBMEMTRACK += memtrack.msm8937
 LIBMEMTRACK += memtrack.msm8953
-LIBMEMTRACK += memtrack.msmcobalt
+LIBMEMTRACK += memtrack.msm8998
 
 #LIBLIGHTS
 LIBLIGHTS := lights.msm8660
@@ -466,7 +467,7 @@ LIBLIGHTS += lights.msm8996
 LIBLIGHTS += lights.msm8952
 LIBLIGHTS += lights.msm8937
 LIBLIGHTS += lights.msm8953
-LIBLIGHTS += lights.msmcobalt
+LIBLIGHTS += lights.msm8998
 
 #LIBHWCOMPOSER
 LIBHWCOMPOSER := hwcomposer.msm8660
@@ -490,7 +491,7 @@ LIBHWCOMPOSER += hwcomposer.msm8996
 LIBHWCOMPOSER += hwcomposer.msm8952
 LIBHWCOMPOSER += hwcomposer.msm8937
 LIBHWCOMPOSER += hwcomposer.msm8953
-LIBHWCOMPOSER += hwcomposer.msmcobalt
+LIBHWCOMPOSER += hwcomposer.msm8998
 
 #LIBAUDIOPARAM -- Exposing AudioParameter as dynamic library for SRS TruMedia to work
 LIBAUDIOPARAM := libaudioparameter
@@ -846,9 +847,6 @@ PRODUCT_PACKAGES += \
 # Qcril configuration file
 PRODUCT_PACKAGES += qcril.db
 
-# Flatland
-PRODUCT_PACKAGES += flatland
-
 # MSM updater library
 PRODUCT_PACKAGES += librecovery_updater_msm
 
@@ -866,6 +864,7 @@ PRODUCT_PACKAGES_DEBUG := init.qcom.testscripts.sh
 
 #Add init.qcom.test.rc to PRODUCT_PACKAGES_DEBUG list
 PRODUCT_PACKAGES_DEBUG += init.qcom.test.rc
+PRODUCT_PACKAGES_DEBUG += init.qcom.debug.sh
 
 #NANOPB_LIBRARY_NAME := libnanopb-c-2.8.0
 
