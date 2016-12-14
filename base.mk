@@ -853,6 +853,9 @@ PRODUCT_PACKAGES += tcmiface
 # healthd libaray expanded for mode charger
 PRODUCT_PACKAGES += libhealthd.msm
 
+# UI Enhancements for ECT and Deflect feature
+PRODUCT_PACKAGES += qtiImsInCallUi
+
 #intialise PRODUCT_PACKAGES_DEBUG list for debug modules
 PRODUCT_PACKAGES_DEBUG := init.qcom.testscripts.sh
 
