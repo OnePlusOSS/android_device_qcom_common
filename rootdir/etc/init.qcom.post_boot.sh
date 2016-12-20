@@ -2016,7 +2016,7 @@ case "$target" in
 	fi
 
 	case "$soc_id" in
-		"317")
+		"317" | "324" | "325" | "326" )
 		# Start Host based Touch processing
 		case "$hw_platform" in
                      "MTP" | "Surf" | "RCM" )
