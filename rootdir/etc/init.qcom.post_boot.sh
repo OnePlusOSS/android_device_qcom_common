@@ -2001,6 +2001,34 @@ case "$target" in
 esac
 
 case "$target" in
+    "msmfalcon")
+
+	if [ -f /sys/devices/soc0/soc_id ]; then
+		soc_id=`cat /sys/devices/soc0/soc_id`
+	else
+		soc_id=`cat /sys/devices/system/soc/soc0/id`
+	fi
+
+	if [ -f /sys/devices/soc0/hw_platform ]; then
+		hw_platform=`cat /sys/devices/soc0/hw_platform`
+	else
+		hw_platform=`cat /sys/devices/system/soc/soc0/hw_platform`
+	fi
+
+	case "$soc_id" in
+		"317")
+		# Start Host based Touch processing
+		case "$hw_platform" in
+                     "MTP" | "Surf" | "RCM" )
+			start hbtp
+			;;
+		esac
+	    ;;
+	esac
+    ;;
+esac
+
+case "$target" in
     "msm8998")
 
 	echo 2 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
