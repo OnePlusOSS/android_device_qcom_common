@@ -113,7 +113,7 @@ config_bt ()
               ;;
         esac
         ;;
-    "msm")
+    "msm" | "sdm")
         setprop ro.qualcomm.bluetooth.opp true
         setprop ro.qualcomm.bluetooth.hfp true
         setprop ro.qualcomm.bluetooth.hsp true

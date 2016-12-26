@@ -2001,7 +2001,7 @@ case "$target" in
 esac
 
 case "$target" in
-    "msmfalcon")
+    "sdm660")
 
 	if [ -f /sys/devices/soc0/soc_id ]; then
 		soc_id=`cat /sys/devices/soc0/soc_id`
