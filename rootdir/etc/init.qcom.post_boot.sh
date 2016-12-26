@@ -43,18 +43,11 @@ function configure_memory_parameters() {
     # Set ALMK parameters (usually above the highest minfree values)
     # 32 bit will have 53K & 64 bit will have 81K
     #
-    # Set ZCache parameters
-    # max_pool_percent is the percentage of memory that the compressed pool
-    # can occupy.
-    # clear_percent is the percentage of memory at which zcache starts
-    # evicting compressed pages. This should be slighlty above adj0 value.
-    # clear_percent = (adj0 * 100 / avalible memory in pages)+1
-    #
     arch_type=`uname -m`
     MemTotalStr=`cat /proc/meminfo | grep MemTotal`
     MemTotal=${MemTotalStr:16:8}
     MemTotalPg=$((MemTotal / 4))
-    adjZeroMinFree=18432
+
     # Read adj series and set adj threshold for PPR and ALMK.
     # This is required since adj values change from framework to framework.
     adj_series=`cat /sys/module/lowmemorykiller/parameters/adj`
@@ -65,40 +58,49 @@ function configure_memory_parameters() {
     # ADJ score represented as INT in LMK params, actual score can be in decimal
     # Hence add 6 considering a worst case of 0.9 conversion to INT (0.9*6).
     set_almk_ppr_adj=$(((set_almk_ppr_adj * 6) + 6))
-    echo $set_almk_ppr_adj > /sys/module/lowmemorykiller/parameters/adj_max_shift
-    echo $set_almk_ppr_adj > /sys/module/process_reclaim/parameters/min_score_adj
-    echo 1 > /sys/module/process_reclaim/parameters/enable_process_reclaim
-    echo 70 > /sys/module/process_reclaim/parameters/pressure_max
-    echo 30 > /sys/module/process_reclaim/parameters/swap_opt_eff
+
+    #AMK is enabled for all configurations
     echo 1 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+    echo 80 > /sys/module/vmpressure/parameters/allocstall_threshold
+    echo $set_almk_ppr_adj > /sys/module/lowmemorykiller/parameters/adj_max_shift
+
+    #LMK and ALMK confguration changes based on arch type and total RAM size
     if [ "$arch_type" == "aarch64" ] && [ $MemTotal -gt 2097152 ]; then
-        echo 10 > /sys/module/process_reclaim/parameters/pressure_min
-        echo 1024 > /sys/module/process_reclaim/parameters/per_swap_size
         echo "18432,23040,27648,32256,55296,80640" > /sys/module/lowmemorykiller/parameters/minfree
         echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
-        adjZeroMinFree=18432
-    elif [ "$arch_type" == "aarch64" ] && [ $MemTotal -gt 1048576 ]; then
-        echo 10 > /sys/module/process_reclaim/parameters/pressure_min
-        echo 1024 > /sys/module/process_reclaim/parameters/per_swap_size
+    elif [ "$arch_type" == "aarch64" ] ; then
         echo "14746,18432,22118,25805,40000,55000" > /sys/module/lowmemorykiller/parameters/minfree
         echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
-        adjZeroMinFree=14746
-    elif [ "$arch_type" == "aarch64" ]; then
-        echo 50 > /sys/module/process_reclaim/parameters/pressure_min
-        echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
-        echo "14746,18432,22118,25805,40000,55000" > /sys/module/lowmemorykiller/parameters/minfree
-        echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
-        adjZeroMinFree=14746
     else
-        echo 50 > /sys/module/process_reclaim/parameters/pressure_min
-        echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
         echo "15360,19200,23040,26880,34415,43737" > /sys/module/lowmemorykiller/parameters/minfree
         echo 53059 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
-        adjZeroMinFree=15360
     fi
-    clearPercent=$((((adjZeroMinFree * 100) / MemTotalPg) + 1))
-    echo $clearPercent > /sys/module/zcache/parameters/clear_percent
-    echo 30 >  /sys/module/zcache/parameters/max_pool_percent
+
+    if [ $MemTotal -lt 3670016 ]; then
+        # Enable and configure process reclaim with memory less than 3.5 GB
+        echo $set_almk_ppr_adj > /sys/module/process_reclaim/parameters/min_score_adj
+        echo 1 > /sys/module/process_reclaim/parameters/enable_process_reclaim
+        echo 10 > /sys/module/process_reclaim/parameters/pressure_min
+        echo 70 > /sys/module/process_reclaim/parameters/pressure_max
+        echo 30 > /sys/module/process_reclaim/parameters/swap_opt_eff
+        echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
+        #Enable B service adj transition for 3.5 GB or less memory
+        setprop ro.sys.fw.bservice_enable true
+        setprop ro.sys.fw.bservice_limit 5
+        setprop ro.sys.fw.bservice_age 5000
+        #Enable Delay Service Restart for 3.5 GB or less memory
+        setprop ro.am.reschedule_service true
+        echo 100 > /proc/sys/vm/swappiness
+    else
+        # Set background app limit to 60 for config with memory greater than 3.5 GB
+        # Set swappiness to 60
+        # Disable process reclaim for config with memory greater than 3.5 GB
+        setprop ro.sys.fw.bg_apps_limit 60
+        echo 60 > /proc/sys/vm/swappiness
+        echo 0 > /sys/module/process_reclaim/parameters/enable_process_reclaim
+    fi
+
+
 
     # Zram disk - 512MB size
     zram_enable=`getprop ro.config.zram`
@@ -110,12 +112,6 @@ function configure_memory_parameters() {
 
     SWAP_ENABLE_THRESHOLD=1048576
     swap_enable=`getprop ro.config.swap`
-
-    if [ -f /sys/devices/soc0/soc_id ]; then
-        soc_id=`cat /sys/devices/soc0/soc_id`
-    else
-        soc_id=`cat /sys/devices/system/soc/soc0/id`
-    fi
 
     # Enable swap initially only for 1 GB targets
     if [ "$MemTotal" -le "$SWAP_ENABLE_THRESHOLD" ] && [ "$swap_enable" == "true" ]; then
@@ -1680,6 +1676,9 @@ case "$target" in
 
         # re-enable thermal and BCL hotplug
         echo 1 > /sys/module/msm_thermal/core_control/enabled
+
+        # Set Memory parameters
+        configure_memory_parameters
 
         # Enable bus-dcvs
         for cpubw in /sys/class/devfreq/*qcom,cpubw*
