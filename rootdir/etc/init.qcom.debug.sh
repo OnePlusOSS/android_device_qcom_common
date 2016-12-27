@@ -26,6 +26,8 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+HERE=/system/etc
+source $HERE/init.qcom.debug-sdm660.sh
 # function to enable ftrace events to CoreSight STM
 enable_stm_events()
 {
@@ -811,9 +813,14 @@ enable_osm_wdog_status_config
 
 case "$coresight_config" in
     "stm-events")
+        if [ $target == "sdm660" ]; then
+        echo "Enabling STM/Debug events for SDM660"
+        enable_sdm660_debug
+        else
         echo "Enabling STM events."
         enable_stm_events
         setprop ro.dbg.coresight.stm_cfg_done 1
+        fi
         ;;
     *)
         echo "Skipping coresight configuration."
