@@ -223,6 +223,22 @@ enable_sdm660_dcc_config()
     echo sram > $DCC_PATH/data_sink
     echo  1 > $DCC_PATH/config_reset
 
+    #OSM WDOG
+    echo 0x179C1C00 37 > $DCC_PATH/config
+    echo 0x179C3C00 37 > $DCC_PATH/config
+    #APM
+    echo 0x179D0000 1 > $DCC_PATH/config
+    echo 0x179D000C 1 > $DCC_PATH/config
+    echo 0x179D0018 1 > $DCC_PATH/config
+    #L2_SAW4_PMIC_STS
+    echo 0x17912C18 1 > $DCC_PATH/config
+    echo 0x17812C18 1 > $DCC_PATH/config
+    #CPRH_STATUS
+    echo 0x179C4000 1 > $DCC_PATH/config
+    echo 0x179C8000 1 > $DCC_PATH/config
+    echo 0x179CBAA4 1 > $DCC_PATH/config
+    echo 0x179C7AA4 1 > $DCC_PATH/config
+
     #APCS_ALIAS0_APSS_ACS
     echo 0x17988004 > $DCC_PATH/config    #CPU_PWR_CTL
     echo 0x17988008 > $DCC_PATH/config    #APC_PWR_STATUS
