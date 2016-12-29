@@ -168,7 +168,7 @@ case "$target" in
         esac
         start_charger_monitor
         ;;
-    "msmfalcon")
+    "sdm660")
         if [ -f /sys/devices/soc0/soc_id ]; then
             soc_id=`cat /sys/devices/soc0/soc_id`
         else
@@ -248,7 +248,7 @@ case "$target" in
                   ;;
         esac
         ;;
-    "msm8994" | "msm8992" | "msm8998" | "msmfalcon_64" | "msmfalcon_32")
+    "msm8994" | "msm8992" | "msm8998" | "sdm660_64" | "sdm660_32")
         start_msm_irqbalance
         ;;
     "msm8996")
