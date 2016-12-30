@@ -209,6 +209,180 @@ enable_msm8998_dcc_config()
     echo  1 > $DCC_PATH/enable
 }
 
+# Function MSMFALCON DCC configuration
+enable_msmfalcon_dcc_config()
+{
+    DCC_PATH="/sys/bus/platform/devices/10b3000.dcc"
+    if [ ! -d $DCC_PATH ]; then
+        echo "DCC don't exist on this build."
+        return
+    fi
+
+    echo  0 > $DCC_PATH/enable
+    echo cap > $DCC_PATH/func_type
+    echo sram > $DCC_PATH/data_sink
+    echo  1 > $DCC_PATH/config_reset
+
+    #APCS_ALIAS0_APSS_ACS
+    echo 0x17988004 > $DCC_PATH/config    #CPU_PWR_CTL
+    echo 0x17988008 > $DCC_PATH/config    #APC_PWR_STATUS
+    echo 0x17988064 > $DCC_PATH/config    #SPM_QCHANNEL_CFG
+    #APCS_ALIAS0_SAW4_1_1_SPM
+    echo 0x17989000 > $DCC_PATH/config    #SPM_CTL
+    #APCS_ALIAS0_SAW4_1_1_STS
+    echo 0x17989C0C > $DCC_PATH/config    #SPM_STS
+    echo 0x17989C10 > $DCC_PATH/config    #SPM_STS2
+    echo 0x17989C20 > $DCC_PATH/config    #SPM_STS3
+    echo 0x17989C18 > $DCC_PATH/config    #PMIC_STS
+
+    #APCS_ALIAS1_APSS_ACS
+    echo 0x17998004 > $DCC_PATH/config    #CPU_PWR_CTL
+    echo 0x17998008 > $DCC_PATH/config    #APC_PWR_STATUS
+    echo 0x17998064 > $DCC_PATH/config    #SPM_QCHANNEL_CFG
+    #APCS_ALIAS1_SAW4_1_1_SPM
+    echo 0x17999000 > $DCC_PATH/config    #SPM_CTL
+    #APCS_ALIAS1_SAW4_1_1_STS
+    echo 0x17999C0C > $DCC_PATH/config    #SPM_STS
+    echo 0x17999C10 > $DCC_PATH/config    #SPM_STS2
+    echo 0x17999C20 > $DCC_PATH/config    #SPM_STS3
+
+    #APCS_ALIAS2_APSS_ACS
+    echo 0x179A8004 > $DCC_PATH/config    #CPU_PWR_CTL
+    echo 0x179A8008 > $DCC_PATH/config    #APC_PWR_STATUS
+    echo 0x179A8064 > $DCC_PATH/config    #SPM_QCHANNEL_CFG
+    #APCS_ALIAS2_SAW4_1_1_SPM
+    echo 0x179A9000 > $DCC_PATH/config    #SPM_CTL
+    #APCS_ALIAS2_SAW4_1_1_STS
+    echo 0x179A9C0C > $DCC_PATH/config    #SPM_STS
+    echo 0x179A9C10 > $DCC_PATH/config    #SPM_STS2
+    echo 0x179A9C20 > $DCC_PATH/config    #SPM_STS3
+
+    #APCS_ALIAS3_APSS_ACS
+    echo 0x179B8004 > $DCC_PATH/config    #CPU_PWR_CTL
+    echo 0x179B8008 > $DCC_PATH/config    #APC_PWR_STATUS
+    echo 0x179B8064 > $DCC_PATH/config    #SPM_QCHANNEL_CFG
+    #APCS_ALIAS3_SAW4_1_1_SPM
+    echo 0x179B9000 > $DCC_PATH/config    #SPM_CTL
+    #APCS_ALIAS3_SAW4_1_1_STS
+    echo 0x179B9C0C > $DCC_PATH/config    #SPM_STS
+    echo 0x179B9C10 > $DCC_PATH/config    #SPM_STS2
+    echo 0x179B9C20 > $DCC_PATH/config    #SPM_STS3
+
+    #APCS_ALIAS0_APSS_GLB
+    echo 0x17911014 > $DCC_PATH/config    #L2_PWR_CTL
+    echo 0x17911018 > $DCC_PATH/config    #L2_PWR_STATUS
+    echo 0x17911210 > $DCC_PATH/config    #L2_SPM_QCHANNEL_CFG
+    echo 0x17911218 > $DCC_PATH/config    #L2_FLUSH_CTL
+    echo 0x17911234 > $DCC_PATH/config    #L2_FLUSH_STS
+    echo 0x17911290 > $DCC_PATH/config    #DX_FSM_STATUS
+    #APCLUS0_L2_SAW4_1_1_SPM
+    echo 0x17912000 > $DCC_PATH/config    #SPM_CTL
+    echo 0x17912004 > $DCC_PATH/config    #SPM_DLY
+    echo 0x1791200C > $DCC_PATH/config    #SPM_CFG
+    #APCLUS0_L2_SAW4_1_1_STS
+    echo 0x17912C0C > $DCC_PATH/config    #SPM_STS
+    echo 0x17912C10 > $DCC_PATH/config    #SPM_STS2
+    echo 0x17912C20 > $DCC_PATH/config    #SPM_STS3
+    echo 0x17912C18 > $DCC_PATH/config    #PMIC_STS
+
+
+    #APCS_ALIAS4_APSS_ACS
+    echo 0x17888004 > $DCC_PATH/config    #CPU_PWR_CTL
+    echo 0x17888008 > $DCC_PATH/config    #APC_PWR_STATUS
+    echo 0x17888064 > $DCC_PATH/config    #SPM_QCHANNEL_CFG
+    #APCS_ALIAS4_SAW4_1_1_SPM
+    echo 0x17889000 > $DCC_PATH/config    #SPM_CTL
+    #APCS_ALIAS4_SAW4_1_1_STS
+    echo 0x17889C0C > $DCC_PATH/config    #SPM_STS
+    echo 0x17889C10 > $DCC_PATH/config    #SPM_STS2
+    echo 0x17889C20 > $DCC_PATH/config    #SPM_STS3
+    echo 0x17889C18 > $DCC_PATH/config    #PMIC_STS
+
+    #APCS_ALIAS5_APSS_ACS
+    echo 0x17898004 > $DCC_PATH/config    #CPU_PWR_CTL
+    echo 0x17898008 > $DCC_PATH/config    #APC_PWR_STATUS
+    echo 0x17898064 > $DCC_PATH/config    #SPM_QCHANNEL_CFG
+    #APCS_ALIAS5_SAW4_1_1_SPM
+    echo 0x17899000 > $DCC_PATH/config    #SPM_CTL
+    #APCS_ALIAS5_SAW4_1_1_STS
+    echo 0x17899C0C > $DCC_PATH/config    #SPM_STS
+    echo 0x17899C10 > $DCC_PATH/config    #SPM_STS2
+    echo 0x17899C20 > $DCC_PATH/config    #SPM_STS3
+
+    #APCS_ALIAS6_APSS_ACS
+    echo 0x178A8004 > $DCC_PATH/config    #CPU_PWR_CTL
+    echo 0x178A8008 > $DCC_PATH/config    #APC_PWR_STATUS
+    echo 0x178A8064 > $DCC_PATH/config    #SPM_QCHANNEL_CFG
+    #APCS_ALIAS6_SAW4_1_1_SPM
+    echo 0x178A9000 > $DCC_PATH/config    #SPM_CTL
+    #APCS_ALIAS6_SAW4_1_1_STS
+    echo 0x178A9C0C > $DCC_PATH/config    #SPM_STS
+    echo 0x178A9C10 > $DCC_PATH/config    #SPM_STS2
+    echo 0x178A9C20 > $DCC_PATH/config    #SPM_STS3
+
+    #APCS_ALIAS7_APSS_ACS
+    echo 0x178B8004 > $DCC_PATH/config    #CPU_PWR_CTL
+    echo 0x178B8008 > $DCC_PATH/config    #APC_PWR_STATUS
+    echo 0x178B8064 > $DCC_PATH/config    #SPM_QCHANNEL_CFG
+    #APCS_ALIAS7_SAW4_1_1_SPM
+    echo 0x178B9000 > $DCC_PATH/config    #SPM_CTL
+    #APCS_ALIAS7_SAW4_1_1_STS
+    echo 0x178B9C0C > $DCC_PATH/config    #SPM_STS
+    echo 0x178B9C10 > $DCC_PATH/config    #SPM_STS2
+    echo 0x178B9C20 > $DCC_PATH/config    #SPM_STS3
+
+    #APCS_ALIAS1_APSS_GLB
+    echo 0x17811014 > $DCC_PATH/config    #L2_PWR_CTL
+    echo 0x17811018 > $DCC_PATH/config    #L2_PWR_STATUS
+    echo 0x17811210 > $DCC_PATH/config    #L2_SPM_QCHANNEL_CFG
+    echo 0x17811218 > $DCC_PATH/config    #L2_FLUSH_CTL
+    echo 0x17811234 > $DCC_PATH/config    #L2_FLUSH_STS
+    echo 0x17811290 > $DCC_PATH/config    #DX_FSM_STATUS
+    #APCLUS1_L2_SAW4_1_1_SPM
+    echo 0x17812000 > $DCC_PATH/config    #SPM_CTL
+    echo 0x17812004 > $DCC_PATH/config    #SPM_DLY
+    echo 0x1781200C > $DCC_PATH/config    #SPM_CFG
+    #APCLUS1_L2_SAW4_1_1_STS
+    echo 0x17812C0C > $DCC_PATH/config    #SPM_STS
+    echo 0x17812C10 > $DCC_PATH/config    #SPM_STS2
+    echo 0x17812C20 > $DCC_PATH/config    #SPM_STS3
+    echo 0x17812C18 > $DCC_PATH/config    #PMIC_STS
+
+    #APCS_CCI_GLADIATOR
+    echo 0x17900008 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_CFGIO
+    echo 0x17900078 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_CFGDUT
+    echo 0x17901014 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_ERRVLD
+    echo 0x17901018 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_ERRCLR
+    echo 0x1790101C > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_ERRLOG0
+    echo 0x17901020 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_ERRLOG1
+    echo 0x17901024 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_ERRLOG2
+    echo 0x17901028 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_ERRLOG3
+    echo 0x1790102C > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_ERRLOG4
+    echo 0x17901030 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_ERRLOG5
+    echo 0x17901034 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_ERRLOG6
+    echo 0x1790103C > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_ERRLOG8
+    echo 0x17904008 > $DCC_PATH/config    #APCS_CCI_PD_GNOC_MAIN_PROGPOWERCONTROLLER_TARGET0
+    echo 0x1790400C > $DCC_PATH/config    #APCS_CCI_PD_GNOC_MAIN_PROGPOWERCONTROLLER_TARGET1
+    echo 0x17904010 > $DCC_PATH/config    #APCS_CCI_PD_GNOC_MAIN_PROGPOWERCONTROLLER_TARGET2
+    echo 0x17904014 > $DCC_PATH/config    #APCS_CCI_PD_GNOC_MAIN_PROGPOWERCONTROLLER_TARGET3
+
+    #CCI_SAW4_1_1_SPM
+    echo 0x179D2000 > $DCC_PATH/config    #SPM_CTL
+    #CCI_SAW4_1_1_STS
+    echo 0x179D2C0C > $DCC_PATH/config    #SPM_STS
+    echo 0x179D2C10 > $DCC_PATH/config    #SPM_STS2
+    echo 0x179D2C20 > $DCC_PATH/config    #SPM_STS3
+    echo 0x179D2C18 > $DCC_PATH/config    #PMIC_STS
+
+    #BIMC_GLOBAL2
+    echo 0x010021F0 > $DCC_PATH/config    #BIMC_BRIC_DEFAULT_SEGMENT
+    echo 0x010021F4 > $DCC_PATH/config    #BIMC_BRIC_REDIRECT_CTRL
+    echo 0x010021F8 > $DCC_PATH/config    #BIMC_BRIC_REDIRECT_MSTR_EN
+    echo 0x010021FC > $DCC_PATH/config    #BIMC_BRIC_REDIRECT_CTRL_STATUS
+
+    echo  1 > $DCC_PATH/enable
+}
+
 # Function MSM8996 DCC configuration
 enable_msm8996_dcc_config()
 {
@@ -511,6 +685,11 @@ enable_dcc_config()
 	    echo "Enabling DCC config for msm8998."
 	    enable_msm8998_dcc_config
 	    ;;
+
+        "msmfalcon")
+            echo "Enabling DCC config for msmfalcon."
+            enable_msmfalcon_dcc_config
+            ;;
 
         "msm8953")
             echo "Enabling DCC config for 8953."
