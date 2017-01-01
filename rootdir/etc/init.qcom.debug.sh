@@ -210,7 +210,7 @@ enable_msm8998_dcc_config()
 }
 
 # Function MSMFALCON DCC configuration
-enable_msmfalcon_dcc_config()
+enable_sdm660_dcc_config()
 {
     DCC_PATH="/sys/bus/platform/devices/10b3000.dcc"
     if [ ! -d $DCC_PATH ]; then
@@ -686,9 +686,9 @@ enable_dcc_config()
 	    enable_msm8998_dcc_config
 	    ;;
 
-        "msmfalcon")
-            echo "Enabling DCC config for msmfalcon."
-            enable_msmfalcon_dcc_config
+        "sdm660")
+            echo "Enabling DCC config for sdm660."
+            enable_sdm660_dcc_config
             ;;
 
         "msm8953")
