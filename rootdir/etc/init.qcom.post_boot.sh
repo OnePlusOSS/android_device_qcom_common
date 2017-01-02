@@ -1603,7 +1603,7 @@ case "$target" in
 esac
 
 case "$target" in
-    "msmfalcon")
+    "sdm660")
 
         panel=`cat /sys/class/graphics/fb0/modes`
         if [ "${panel:5:1}" == "x" ]; then
