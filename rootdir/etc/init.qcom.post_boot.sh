@@ -1707,6 +1707,29 @@ case "$target" in
             echo 400 > $memlat/mem_latency/ratio_ceil
         done
         echo "cpufreq" > /sys/class/devfreq/soc:qcom,mincpubw/governor
+
+        if [ -f /sys/devices/soc0/soc_id ]; then
+                soc_id=`cat /sys/devices/soc0/soc_id`
+        else
+                soc_id=`cat /sys/devices/system/soc/soc0/id`
+        fi
+
+        if [ -f /sys/devices/soc0/hw_platform ]; then
+                hw_platform=`cat /sys/devices/soc0/hw_platform`
+        else
+                hw_platform=`cat /sys/devices/system/soc/soc0/hw_platform`
+        fi
+
+        case "$soc_id" in
+                "317" | "324" | "325" | "326" )
+                # Start Host based Touch processing
+                case "$hw_platform" in
+                        "MTP" | "Surf" | "RCM" )
+                        start hbtp
+                        ;;
+                esac
+                ;;
+        esac
     ;;
 esac
 
@@ -2106,34 +2129,6 @@ case "$target" in
 	echo N > /sys/module/lpm_levels/parameters/sleep_disabled
         # Starting io prefetcher service
         start iop
-    ;;
-esac
-
-case "$target" in
-    "sdm660")
-
-	if [ -f /sys/devices/soc0/soc_id ]; then
-		soc_id=`cat /sys/devices/soc0/soc_id`
-	else
-		soc_id=`cat /sys/devices/system/soc/soc0/id`
-	fi
-
-	if [ -f /sys/devices/soc0/hw_platform ]; then
-		hw_platform=`cat /sys/devices/soc0/hw_platform`
-	else
-		hw_platform=`cat /sys/devices/system/soc/soc0/hw_platform`
-	fi
-
-	case "$soc_id" in
-		"317" | "324" | "325" | "326" )
-		# Start Host based Touch processing
-		case "$hw_platform" in
-                     "MTP" | "Surf" | "RCM" )
-			start hbtp
-			;;
-		esac
-	    ;;
-	esac
     ;;
 esac
 
