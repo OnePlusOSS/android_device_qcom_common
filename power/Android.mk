@@ -7,8 +7,10 @@ ifeq ($(call is-vendor-board-platform,QCOM),true)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE_RELATIVE_PATH := hw
-LOCAL_SHARED_LIBRARIES := liblog libcutils libdl
-LOCAL_SRC_FILES := power.c metadata-parser.c utils.c list.c hint-data.c
+LOCAL_SHARED_LIBRARIES := liblog libcutils libdl libxml2
+LOCAL_SRC_FILES := power.c metadata-parser.c utils.c list.c hint-data.c powerhintparser.c
+LOCAL_C_INCLUDES := external/libxml2/include \
+                    external/icu/icu4c/source/common
 
 # Include target-specific files.
 ifeq ($(call is-board-platform-in-list, msm8974), true)
