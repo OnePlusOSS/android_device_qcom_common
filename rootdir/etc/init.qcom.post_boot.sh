@@ -1724,7 +1724,7 @@ case "$target" in
                 "317" | "324" | "325" | "326" )
                 # Start Host based Touch processing
                 case "$hw_platform" in
-                        "MTP" | "Surf" | "RCM" )
+                        "MTP" | "Surf" | "RCM" | "QRD" )
                         start hbtp
                         ;;
                 esac
