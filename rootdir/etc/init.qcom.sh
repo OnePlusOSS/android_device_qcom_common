@@ -182,7 +182,7 @@ case "$target" in
         fi
 
         case "$soc_id" in
-             "317" )
+             "317" | "324" | "325" | "326" )
                   case "$hw_platform" in
                        "Surf")
                                     setprop qemu.hw.mainkeys 0
@@ -191,6 +191,9 @@ case "$target" in
                                     setprop qemu.hw.mainkeys 0
                                     ;;
                        "RCM")
+                                    setprop qemu.hw.mainkeys 0
+                                    ;;
+                       "QRD")
                                     setprop qemu.hw.mainkeys 0
                                     ;;
                   esac
