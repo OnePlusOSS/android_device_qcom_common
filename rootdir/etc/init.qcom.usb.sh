@@ -150,8 +150,8 @@ case "$usb_config" in
 	              "msm8952" | "msm8953")
 		          setprop persist.sys.usb.config diag,serial_smd,rmnet_ipa,adb
 		      ;;
-	              "msm8998")
-		          setprop persist.sys.usb.config diag,serial_cdev,rmnet_gsi,adb
+	              "msm8998" | "sdm660")
+		          setprop persist.sys.usb.config diag,serial_cdev,rmnet,adb
 		      ;;
 	              *)
 		          setprop persist.sys.usb.config diag,adb
@@ -172,14 +172,17 @@ case "$target" in
     "msm8996")
         setprop sys.usb.controller "6a00000.dwc3"
         setprop sys.usb.rndis.func.name "rndis_bam"
+	setprop sys.usb.rmnet.func.name "rmnet_bam"
 	;;
     "msm8998")
         setprop sys.usb.controller "a800000.dwc3"
         setprop sys.usb.rndis.func.name "gsi"
+	setprop sys.usb.rmnet.func.name "gsi"
 	;;
-    "msmfalcon")
+    "sdm660")
         setprop sys.usb.controller "a800000.dwc3"
         setprop sys.usb.rndis.func.name "rndis_bam"
+	setprop sys.usb.rmnet.func.name "rmnet_bam"
         ;;
     *)
 	;;
@@ -187,6 +190,11 @@ esac
 
 # check configfs is mounted or not
 if [ -d /config/usb_gadget ]; then
+	msm_serial=`cat /sys/devices/soc0/serial_number`;
+	msm_serial_hex=`printf %08X $msm_serial`
+	machine_type=`cat /sys/devices/soc0/machine`
+	product_string="$machine_type-$soc_hwplatform _SN:$msm_serial_hex"
+	echo "$product_string" > /config/usb_gadget/g1/strings/0x409/product
 	setprop sys.usb.configfs 1
 fi
 
