@@ -199,6 +199,7 @@ case "$target" in
                   esac
                   ;;
        esac
+        start_msm_irqbalance
         ;;
     "apq8084")
         platformvalue=`cat /sys/devices/soc0/hw_platform`
@@ -251,7 +252,7 @@ case "$target" in
                   ;;
         esac
         ;;
-    "msm8994" | "msm8992" | "msm8998" | "sdm660_64" | "sdm660_32")
+    "msm8994" | "msm8992" | "msm8998")
         start_msm_irqbalance
         ;;
     "msm8996")
