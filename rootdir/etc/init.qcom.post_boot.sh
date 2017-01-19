@@ -2245,6 +2245,7 @@ case "$target" in
 		case "$hw_platform" in
 		"QRD")
 			start hbtp
+			echo 0 > /sys/class/graphics/fb1/hpd
 			;;
 		"Surf")
 			case "$platform_subtype_id" in
