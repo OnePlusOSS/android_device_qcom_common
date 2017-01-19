@@ -34,7 +34,7 @@ sgltecsfb=`getprop persist.radio.sglte_csfb`
 datamode=`getprop persist.data.mode`
 
 case "$baseband" in
-    "apq" | "sdc" )
+    "apq" | "sda" )
     setprop ro.radio.noril yes
     stop ril-daemon
 esac
