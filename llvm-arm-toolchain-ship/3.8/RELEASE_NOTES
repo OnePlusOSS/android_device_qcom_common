@@ -1,0 +1,160 @@
+This is the release of Snapdragon LLVM ARM C/C++ compiler toolchain version
+3.8. This is a cross toolchain built to run on x86 64-bit Ubuntu Linux
+(versions 10.04 and later) and Windows platform (Windows 7 64-bit). This
+Snapdragon LLVM ARM Compiler will generate code only for ARM targets and will
+not generate code for any of the other targets supported by llvm.org LLVM.
+
+The version 3.8 of Snapdragon LLVM ARM Compiler is based off the llvm.org 3.8
+release. Snapdragon LLVM ARM toolchain 3.8 release includes proprietary
+features and optimizations that are not available in the llvm.org release.
+
+The Snapdragon LLVM ARM Compiler uses the integrated assembler for assembling
+and includes a full featured proprietary linker (QC Linker) for linking.
+
+NOTE: GLIBCXX_3.4.18 or higher is required to run Snapdragon LLVM 3.8 on Ubuntu
+x86 64-bit hosts; this library is typically available as part of Ubuntu
+distribution or GCC-4.8 x86 distributions. 
+
+The complete user guide for this release of the Snapdragon LLVM ARM Compiler
+and linker can be downloaded from Agile by following the links below:
+
+Snapdragon LLVM ARM Compiler Internal User Guide:
+http://agiledocument.qualcomm.com/AgileDocument/spring/authorize?itemno=80-VB419-96
+
+Snapdragon ARM Linker User Guide:
+http://agiledocument.qualcomm.com/AgileDocument/spring/authorize?itemno=80-VB419-102
+
+Please send all questions about this release to llvm-arm-support@qualcomm.com.
+
+The following are some of the key features in the 3.8 version compared to the
+3.7 version:
+
+1. Full support for building Android code base (AOSP) as well as QC Android
+without any changes to the build system.
+
+2. Availability of all features from the llvm.org 3.8 release, including
+developmental support for half float.
+
+2. Integration with Symphony (previously known as MARE) to enable users to use
+an alternative Auto par runtime system. Please refer to section 4.5.1 of the
+Snapdragon LLVM ARM Compiler user guide.
+
+Basic Usage & Examples:
+
+clang and clang++ are the C and C++ drivers respectively of Snapdragon
+LLVM ARM Compiler. They require users to specify the assembler and linker
+explicitly.
+
+For Windows:
+
+In order to use the drivers you need to specify a Windows version of the GCC
+cross toolchain as the sysroot.
+
+To invoke the compiler from a Windows command prompt:
+
+set PATH=<path-to-compiler-bin>;<path-to-sysroot-bin>;%PATH%
+
+clang.exe -mfloat-abi=softfp --sysroot=<path/to/sysroot> foo.c
+
+NOTE:
+Microsoft Visual C++ Redistributable 2015 x64 is required in order to use
+the Windows version of Snapdragon LLVM ARM 3.8. If the invocation of clang.exe
+results in a "Missing DLL" message popup on your windows system, you are likely
+missing the Redistributable DLLs. Please install the 64-bit version of MSVC++
+Redistributables if they are reported missing. If your system does not already
+have the required DLLs,  you can download and install them from the following
+link:
+
+https://www.microsoft.com/en-us/download/details.aspx?id=48145
+
+Click "Download" and select "vc_redist.x64.exe" to install the 64-bit version of
+MSVC++ Redistributable required for Snapdragon LLVM ARM 3.8
+
+NOTE:
+On Windows, the LTO feature can only be used with the QC linker (ld.qcld).
+It cannot be used with the gold linker plugin since the plugin is not available
+for Windows platform.
+
+For Linux:
+
+Note that the Linux version of clang is built with support for using GCC 4.9.0
+sysroot by default. Users can use a different sysroot (such as GCC-4.8 sysroot)
+by using the --sysroot option as described in section 3.8 of the Snapdragon ARM
+LLVM Compiler guide. 
+
+Examples of clang driver usage on Linux:
+clang -march=armv7-a -mfloat-abi=softfp -mfpu=neon -O3 -o foo foo.c
+clang++ -mcpu=krait -mfloat-abi=softfp -mfpu=neon -Os -mthumb -o bar bar.cpp
+clang++ -mcpu=krait -mfloat-abi=softfp -mfpu=neon \
+--sysroot=</path/to/another-gcc-sysroot> -Ofast -c test.cpp
+
+For Android:
+
+If you would like to use Snapdragon LLVM ARM Compiler to target an Android platform
+for building Android components, please contact llvm-arm-support@qualcomm.com
+
+For generating executables that can be executed on ARM Linux and Android
+environment, we recommend using -static linker flag to enable generation of
+static executables which do not have dependence on runtime OS libraries.
+
+Options:
+
+To find out the most common options, please pass -help flag to the clang
+driver. This will report the Snapdragon LLVM ARM specific options and
+general ARM options first, before listing target independent options
+available in Snapdragon LLVM ARM Compiler.
+
+Compiler options for best performance:
+
+For 64-bit applications, we recommend using "-Ofast -mcpu=cortex-a57" options
+for best performance on Kryo and Cortex-a57 cores, and "-Ofast
+-mcpu=cortex-a53" for best performance on Cortex-a53 cores.
+
+For 32-bit, we recommend using the "-Ofast -mcpu=krait" options for best
+performance of your application on Krait cores. For non-Krait 32-bit cores, we
+recommend using the "-Ofast" option. If you would like to avoid the generation
+of Krait specific instructions (hardware divide, fused-mac) to enable running
+on a variety of ARMv7 cores, but still optimize for best performance on Krait
+cores, we recommend the "-Ofast -march=armv7-a -mfpu=neon" options.
+
+The -Ofast option enables several high performance optimizations such as
+Auto-vectorizer. Please refer to section 3.4.19 of the Snapdragon LLVM ARM
+Compiler guide for more details.
+
+Compiler options for smallest code-size:
+
+We recommending using the "-Osize -mthumb" options to generate the most compact
+code with the Snapdragon LLVM 3.8 compiler. Please refer to section 3.4.19 for
+more details on the -Osize optimization level
+
+Compiling for AArch64:
+To compile for AArch64 (ARMv8 64-bit mode), please pass the following option to
+clang:
+ -target aarch64-linux-gnu
+
+Compiling for AArch32:
+To compile for AArch32, please pass the following option to clang:
+ -target armv8-linux-gnueabi
+
+Note that even though AArch32 ISA is fully backward compatible with ARMv7 ISA,
+there are newer instructions in AArch32 ISA compared to ARMv7 ISA.
+This means that AArch32 executables cannot be executed on ARMv7 cores such
+as Krait.
+
+Please refer to section 3.4.19 of the Snapdragon LLVM ARM Compiler user guide to
+learn about various optimization flags.
+
+LLVM's Support for GCC command line options:
+
+Most of the commonly used GCC options are supported by LLVM as well. A detailed
+list of options supported is listed in chapter 3 of the Snapdragon LLVM ARM
+Compiler user guide.  
+
+Use and Distribution:
+
+This release is strictly for internal distribution and should not be
+distributed outside of Qualcomm. An external release is available on
+QDevNet for customer access.
+
+Contacts & Bug Reporting
+llvm-arm-support@qualcomm.com
