@@ -1601,6 +1601,18 @@ esac
 case "$target" in
     "sdm660")
 
+        if [ -f /sys/devices/soc0/soc_id ]; then
+                soc_id=`cat /sys/devices/soc0/soc_id`
+        else
+                soc_id=`cat /sys/devices/system/soc/soc0/id`
+        fi
+
+        if [ -f /sys/devices/soc0/hw_platform ]; then
+                hw_platform=`cat /sys/devices/soc0/hw_platform`
+        else
+                hw_platform=`cat /sys/devices/system/soc/soc0/hw_platform`
+        fi
+
         panel=`cat /sys/class/graphics/fb0/modes`
         if [ "${panel:5:1}" == "x" ]; then
             panel=${panel:2:3}
@@ -1674,6 +1686,34 @@ case "$target" in
         echo 1 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/ignore_hispeed_on_notif
         echo 1 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/fast_ramp_down
 
+        case "$soc_id" in
+                "317" | "324" | "325" | "326" )
+                # bring all cores online
+                echo 1 > /sys/devices/system/cpu/cpu0/online
+                echo 1 > /sys/devices/system/cpu/cpu1/online
+                echo 1 > /sys/devices/system/cpu/cpu2/online
+                echo 1 > /sys/devices/system/cpu/cpu3/online
+                echo 1 > /sys/devices/system/cpu/cpu4/online
+                echo 1 > /sys/devices/system/cpu/cpu5/online
+                echo 1 > /sys/devices/system/cpu/cpu6/online
+                echo 1 > /sys/devices/system/cpu/cpu7/online
+
+                # configure LPM
+                echo N > /sys/module/lpm_levels/system/pwr/cpu0/ret/idle_enabled
+                echo N > /sys/module/lpm_levels/system/pwr/cpu1/ret/idle_enabled
+                echo N > /sys/module/lpm_levels/system/pwr/cpu2/ret/idle_enabled
+                echo N > /sys/module/lpm_levels/system/pwr/cpu3/ret/idle_enabled
+                echo N > /sys/module/lpm_levels/system/perf/cpu4/ret/idle_enabled
+                echo N > /sys/module/lpm_levels/system/perf/cpu5/ret/idle_enabled
+                echo N > /sys/module/lpm_levels/system/perf/cpu6/ret/idle_enabled
+                echo N > /sys/module/lpm_levels/system/perf/cpu7/ret/idle_enabled
+                echo N > /sys/module/lpm_levels/system/pwr/pwr-l2-dynret/idle_enabled
+                echo N > /sys/module/lpm_levels/system/perf/perf-l2-dynret/idle_enabled
+                # enable LPM
+                echo 0 > /sys/module/lpm_levels/parameters/sleep_disabled
+                ;;
+        esac
+
         # re-enable thermal and BCL hotplug
         echo 1 > /sys/module/msm_thermal/core_control/enabled
 
@@ -1708,17 +1748,6 @@ case "$target" in
         done
         echo "cpufreq" > /sys/class/devfreq/soc:qcom,mincpubw/governor
 
-        if [ -f /sys/devices/soc0/soc_id ]; then
-                soc_id=`cat /sys/devices/soc0/soc_id`
-        else
-                soc_id=`cat /sys/devices/system/soc/soc0/id`
-        fi
-
-        if [ -f /sys/devices/soc0/hw_platform ]; then
-                hw_platform=`cat /sys/devices/soc0/hw_platform`
-        else
-                hw_platform=`cat /sys/devices/system/soc/soc0/hw_platform`
-        fi
 
         case "$soc_id" in
                 "317" | "324" | "325" | "326" )
@@ -2245,6 +2274,7 @@ case "$target" in
 		case "$hw_platform" in
 		"QRD")
 			start hbtp
+			echo 0 > /sys/class/graphics/fb1/hpd
 			;;
 		"Surf")
 			case "$platform_subtype_id" in
