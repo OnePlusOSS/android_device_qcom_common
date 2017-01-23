@@ -1,5 +1,5 @@
 /*
- *Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+ *Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
  *
  *Redistribution and use in source and binary forms, with or without
  *modification, are permitted provided that the following conditions are
@@ -58,6 +58,11 @@
 #define BMS_BATT_RES_ID_PATH    "/sys/class/power_supply/bms/resistance_id"
 #define PERSIST_BATT_INFO_PATH  "/persist/bms/batt_info.txt"
 
+#define USB_MAX_CURRENT_PATH    "/sys/class/power_supply/usb/max_current"
+#define USB_TYPEC_MODE_PATH     "/sys/class/power_supply/usb/typec_mode"
+
+#define USB500_UA               500000
+
 #define CHGR_TAG                "charger"
 #define HEALTHD_TAG             "healthd_msm"
 #define LOGE(tag, x...) do { KLOG_ERROR(tag, x); } while (0)
@@ -106,20 +111,64 @@ struct soc_led_color_mapping soc_leds[3] = {
 static int batt_info_cached[BATT_INFO_MAX];
 static bool healthd_msm_err_log_once;
 
-static int write_file_int(char const* path, int value)
+static int read_file(char const* path, char* buff, ssize_t size)
 {
-    int fd;
-    char buffer[20];
-    int rc = -1, bytes;
+    int fd, rc;
 
-    fd = open(path, O_WRONLY);
-    if (fd >= 0) {
-        bytes = snprintf(buffer, sizeof(buffer), "%d\n", value);
-        rc = write(fd, buffer, bytes);
+    fd = open(path, O_RDONLY);
+    if (fd < 0)
+        return fd;
+
+    rc = read(fd, buff, size - 1);
+    if (rc < 0) {
         close(fd);
+        return rc;
     }
 
+    close(fd);
+    buff[rc] = '\0';
+
+    return rc;
+}
+
+static int read_int_from_file(char const* path, int* value)
+{
+    int rc;
+    char buff[32];
+
+    rc = read_file(path, buff, sizeof(buff));
+    if (rc < 0)
+        return rc;
+
+    sscanf(buff, "%d\n", value);
+
+    return rc;
+}
+
+static int write_file(char const*path, const char *buff, ssize_t size)
+{
+    int fd, rc = -1;
+
+    fd = open(path,O_WRONLY);
+    if (fd < 0)
+        return fd;
+
+    rc = write(fd, buff, size);
+    close(fd);
+
     return rc > 0 ? 0 : -1;
+}
+
+static int write_file_int(char const* path, int value)
+{
+    int rc = -1, bytes;
+    char buff[32];
+
+    bytes = snprintf(buff, (sizeof(buff) - 1), "%d\n", value);
+    buff[bytes] = '\0';
+    rc = write_file(path, buff, bytes + 1);
+
+    return rc;
 }
 
 static int set_tricolor_led(int on, int color)
@@ -287,27 +336,47 @@ void healthd_board_mode_charger_set_backlight(bool en)
 void healthd_board_mode_charger_init()
 {
     int ret;
-    char buff[8] = "\0";
+    char buff[40] = "\0";
     int charging_enabled = 0;
     int bms_ready = 0;
     int wait_count = 0;
     int fd;
+    bool usb_type_is_sdp = false, typec_default_src = false;
 
     /* check the charging is enabled or not */
-    fd = open(CHARGING_ENABLED_PATH, O_RDONLY);
-    if (fd < 0)
-        return;
-    ret = read(fd, buff, (sizeof(buff) - 1));
-    close(fd);
-    if (ret > 0) {
-        buff[ret] = '\0';
-        sscanf(buff, "%d\n", &charging_enabled);
-        LOGW(CHGR_TAG, "android charging is %s\n",
-                !!charging_enabled ? "enabled" : "disabled");
-        /* if charging is disabled, reboot and exit power off charging */
-        if (!charging_enabled)
-            android_reboot(ANDROID_RB_RESTART, 0, 0);
+    ret = read_int_from_file(CHARGING_ENABLED_PATH, &charging_enabled);
+    if (ret >= 0) {
+         LOGW(CHGR_TAG, "android charging is %s\n",
+                 !!charging_enabled ? "enabled" : "disabled");
+         /* if charging is disabled, reboot and exit power off charging */
+         if (!charging_enabled)
+             android_reboot(ANDROID_RB_RESTART, 0, 0);
     }
+
+    ret = read_file(CHARGER_TYPE_PATH, buff, sizeof(buff));
+    if (ret >= 0) {
+        if (!strcmp(buff, "USB"))
+            usb_type_is_sdp = true;
+    }
+    memset(buff, 0, sizeof(buff));
+    ret = read_file(USB_TYPEC_MODE_PATH, buff, sizeof(buff));
+    if (ret >= 0) {
+        if (!strcmp(buff, "Source attached (default current)"))
+            typec_default_src = true;
+    }
+
+    if (usb_type_is_sdp && typec_default_src) {
+        /*
+         * Request 500mA input current when a SDP is connected and it's
+         * acting as a default source.
+         * PD capable source which could charge the device with USB_PD
+         * charger type is not included here.
+         */
+        ret = write_file_int(USB_MAX_CURRENT_PATH, USB500_UA);
+        if (ret == 0)
+            LOGW(CHGR_TAG, "Force input current to 500mA with SDP inserted!\n");
+    }
+
     fd = open(BMS_READY_PATH, O_RDONLY);
     if (fd < 0)
             return;
