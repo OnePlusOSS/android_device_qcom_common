@@ -44,11 +44,12 @@ on init
     symlink /sdcard /storage/sdcard0
 
     # Create cgroup mount point for memory
-    mkdir /sys/fs/cgroup/memory/bg 0750 root system
-    write /sys/fs/cgroup/memory/bg/memory.swappiness 140
-    write /sys/fs/cgroup/memory/bg/memory.move_charge_at_immigrate 1
-    chown root system /sys/fs/cgroup/memory/bg/tasks
-    chmod 0660 /sys/fs/cgroup/memory/bg/tasks
+    mount tmpfs none /sys/fs/cgroup mode=0750,uid=0,gid=1000
+    mkdir /sys/fs/cgroup/memory 0750 root system
+    mount cgroup none /sys/fs/cgroup/memory memory
+    write /sys/fs/cgroup/memory/memory.move_charge_at_immigrate 0
+    chown root system /sys/fs/cgroup/memory/tasks
+    chmod 0660 /sys/fs/cgroup/memory/tasks
 
 on post-fs
     chmod 0755 /sys/kernel/debug/tracing
@@ -1121,17 +1122,3 @@ on property:vold.decrypt=trigger_restart_min_framework
 
 on property:vold.decrypt=trigger_restart_framework
     restart time_daemon
-
-# Create mount point for memory cgroup
-on property:ro.memperf.enable=true
-    mount tmpfs none /sys/fs/cgroup mode=0750,uid=0,gid=1000
-    mkdir /sys/fs/cgroup/memory 0750 root system
-    mount cgroup none /sys/fs/cgroup/memory memory
-    write /sys/fs/cgroup/memory/memory.move_charge_at_immigrate 1
-    chown root system /sys/fs/cgroup/memory/tasks
-    chmod 0660 /sys/fs/cgroup/memory/tasks
-    mkdir /sys/fs/cgroup/memory/sw 0750 root system
-    write /sys/fs/cgroup/memory/sw/memory.swappiness 100
-    write /sys/fs/cgroup/memory/sw/memory.move_charge_at_immigrate 1
-    chown root system /sys/fs/cgroup/memory/sw/tasks
-    chmod 0660 /sys/fs/cgroup/memory/sw/tasks
