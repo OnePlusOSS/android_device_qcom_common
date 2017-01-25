@@ -182,7 +182,7 @@ case "$target" in
         fi
 
         case "$soc_id" in
-             "317" )
+             "317" | "324" | "325" | "326" )
                   case "$hw_platform" in
                        "Surf")
                                     setprop qemu.hw.mainkeys 0
@@ -193,9 +193,13 @@ case "$target" in
                        "RCM")
                                     setprop qemu.hw.mainkeys 0
                                     ;;
+                       "QRD")
+                                    setprop qemu.hw.mainkeys 0
+                                    ;;
                   esac
                   ;;
        esac
+        start_msm_irqbalance
         ;;
     "apq8084")
         platformvalue=`cat /sys/devices/soc0/hw_platform`
@@ -248,7 +252,7 @@ case "$target" in
                   ;;
         esac
         ;;
-    "msm8994" | "msm8992" | "msm8998" | "sdm660_64" | "sdm660_32")
+    "msm8994" | "msm8992" | "msm8998")
         start_msm_irqbalance
         ;;
     "msm8996")
