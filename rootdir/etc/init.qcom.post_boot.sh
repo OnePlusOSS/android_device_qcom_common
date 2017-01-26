@@ -2424,7 +2424,7 @@ case "$target" in
         start mpdecision
         echo 512 > /sys/block/mmcblk0/bdi/read_ahead_kb
     ;;
-    "msm8994" | "msm8992" | "msm8996" | "msm8998")
+    "msm8994" | "msm8992" | "msm8996" | "msm8998" | "sdm660")
         setprop sys.post_boot.parsed 1
     ;;
     "apq8084")
