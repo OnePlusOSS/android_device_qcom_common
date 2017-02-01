@@ -1750,7 +1750,7 @@ case "$target" in
 
 
         case "$soc_id" in
-                "317" | "324" | "325" | "326" )
+                "317" | "324" | "325" | "326" | "318" | "327" )
                 # Start Host based Touch processing
                 case "$hw_platform" in
                         "MTP" | "Surf" | "RCM" | "QRD" )
