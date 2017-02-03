@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# Copyright (c) 2014-2016, The Linux Foundation. All rights reserved.
+# Copyright (c) 2014-2017, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -397,6 +397,95 @@ enable_sdm660_dcc_config()
     echo 0x010021F4 > $DCC_PATH/config    #BIMC_BRIC_REDIRECT_CTRL
     echo 0x010021F8 > $DCC_PATH/config    #BIMC_BRIC_REDIRECT_MSTR_EN
     echo 0x010021FC > $DCC_PATH/config    #BIMC_BRIC_REDIRECT_CTRL_STATUS
+
+    #GCC_GPLL0
+    echo 0x100000 10 > $DCC_PATH/config
+
+    #GCC_GPLL1
+    echo 0x101000 10 > $DCC_PATH/config
+
+    #GCC_GPLL2
+    echo 0x102000 10 > $DCC_PATH/config
+
+    #GCC_GPLL3
+    echo 0x103000 10  > $DCC_PATH/config
+
+    #GCC_GPLL4
+    echo 0x177000 10 > $DCC_PATH/config
+
+    #GCC_GPLL5
+    echo 0x174000 10 > $DCC_PATH/config
+
+    echo 0x151000 > $DCC_PATH/config    #GCC_RPM_GPLL_ENA_VOTE
+
+    echo 0x144004 > $DCC_PATH/config    #GCC_BIMC_GDSCR
+    echo 0x146048 > $DCC_PATH/config    #GCC_DDR_DIM_WRAPPER_GDSCR
+    echo 0x183004 > $DCC_PATH/config    #GCC_AGGRE2_NOC_GDSCR
+
+    echo 0x104020 2 > $DCC_PATH/config
+    echo 0x104040 2 > $DCC_PATH/config
+    echo 0x105038 2 > $DCC_PATH/config
+    echo 0x10A008 2 > $DCC_PATH/config
+
+    #GCC_CNOC
+    echo 0x105050 2 > $DCC_PATH/config
+
+    #GCC_QDSS
+    echo 0x10D000 2 > $DCC_PATH/config
+    echo 0x10D018 2 > $DCC_PATH/config
+    echo 0x10D030 2 > $DCC_PATH/config
+
+    echo 0x10E000 2 > $DCC_PATH/config
+    echo 0x10E018 2 > $DCC_PATH/config
+    echo 0x10E030 2 > $DCC_PATH/config
+    echo 0x10E048 2 > $DCC_PATH/config
+
+    #GCC_RPM
+    echo 0x13C018 2 > $DCC_PATH/config
+
+    #GCC_CE1
+    echo 0x141010 2 > $DCC_PATH/config
+
+    #GCC_BIMC
+    echo 0x145018 2 > $DCC_PATH/config
+
+    #GCC_BIMC_DDR_CPLL0_ROOT
+    echo 0x146010 2 > $DCC_PATH/config
+
+    #GCC_BIMC_DDR_CPLL1_ROOT
+    echo 0x146028 2 > $DCC_PATH/config
+
+    #GCC_CDSP_BIMC
+    echo 0x147030 2 > $DCC_PATH/config
+
+    echo 0x148014 2 > $DCC_PATH/config
+
+    echo 0x14802C 2 > $DCC_PATH/config
+
+    echo 0x18A024 2 > $DCC_PATH/config
+
+    echo 0x17101C 2 > $DCC_PATH/config
+
+    echo 0x189018 2 > $DCC_PATH/config
+
+    echo 0x17A014 2 > $DCC_PATH/config
+
+    echo 0x17A02C 2 > $DCC_PATH/config
+    echo 0x17A044 2 > $DCC_PATH/config
+    echo 0x17A05C 2 > $DCC_PATH/config
+    echo 0x17A074 2 > $DCC_PATH/config
+
+    echo 0x146004 2 > $DCC_PATH/config
+
+    echo 0xC8CC000 10 > $DCC_PATH/config
+
+    echo 0xC8CC050 10 > $DCC_PATH/config
+
+    echo 0xC8C00F0 10 > $DCC_PATH/config
+
+    echo 0xC8C4000 > $DCC_PATH/config	 #MMSS_PLL_VOTE_RPM
+
+    echo 0xC8CD000 2 > $DCC_PATH/config
 
     echo  1 > $DCC_PATH/enable
 }
