@@ -30,6 +30,11 @@
 
 enable_sdm660_stm_events()
 {
+    # bail out if its perf config
+    if [ ! -d /sys/module/msm_rtb ]
+    then
+        return
+    fi
     # bail out if coresight isn't present
     if [ ! -d /sys/bus/coresight ]
     then
@@ -47,9 +52,6 @@ enable_sdm660_stm_events()
     echo 1 > /sys/kernel/debug/tracing/tracing_on
     echo 0 > /sys/bus/coresight/devices/coresight-stm/hwevent_enable
     # timer
-    echo 1 > /sys/kernel/debug/tracing/events/timer/enable
-    echo 1 > /sys/kernel/debug/tracing/events/timer/filter
-    echo 1 > /sys/kernel/debug/tracing/events/timer/timer_cancel/enable
     echo 1 > /sys/kernel/debug/tracing/events/timer/timer_expire_entry/enable
     echo 1 > /sys/kernel/debug/tracing/events/timer/timer_expire_exit/enable
     echo 1 > /sys/kernel/debug/tracing/events/timer/hrtimer_cancel/enable
@@ -60,29 +62,13 @@ enable_sdm660_stm_events()
 
     #enble FTRACE for softirq events
     echo 1 > /sys/kernel/debug/tracing/events/irq/enable
-    echo 1 > /sys/kernel/debug/tracing/events/irq/filter
-    echo 1 > /sys/kernel/debug/tracing/events/irq/softirq_entry/enable
-    echo 1 > /sys/kernel/debug/tracing/events/irq/softirq_exit/enable
-    echo 1 > /sys/kernel/debug/tracing/events/irq/softirq_raise/enable
     #enble FTRACE for Workqueue events
     echo 1 > /sys/kernel/debug/tracing/events/workqueue/enable
-    echo 1 > /sys/kernel/debug/tracing/events/workqueue/filter
-    echo 1 > /sys/kernel/debug/tracing/events/workqueue/workqueue_activate_work/enable
-    echo 1 > /sys/kernel/debug/tracing/events/workqueue/workqueue_execute_end/enable
-    echo 1 > /sys/kernel/debug/tracing/events/workqueue/workqueue_execute_start/enable
-    echo 1 > /sys/kernel/debug/tracing/events/workqueue/workqueue_queue_work/enable
     # schedular
-    echo 1 > /sys/kernel/debug/tracing/events/sched/enable
-    echo 1 > /sys/kernel/debug/tracing/events/sched/filter
     echo 1 > /sys/kernel/debug/tracing/events/sched/sched_cpu_hotplug/enable
-    echo 1 > /sys/kernel/debug/tracing/events/sched/sched_cpu_load/enable
-    echo 1 > /sys/kernel/debug/tracing/events/sched/sched_enq_deq_task/enable
-    echo 1 > /sys/kernel/debug/tracing/events/sched/sched_process_exec/enable
-    echo 1 > /sys/kernel/debug/tracing/events/sched/sched_process_exit/enable
-    echo 1 > /sys/kernel/debug/tracing/events/sched/sched_process_fork/enable
-    echo 1 > /sys/kernel/debug/tracing/events/sched/sched_process_free/enable
-    echo 1 > /sys/kernel/debug/tracing/events/sched/sched_stat_wait/enable
-    echo 1 > /sys/kernel/debug/tracing/events/sched/sched_update_task_ravg/enable
+    echo 1 > /sys/kernel/debug/tracing/events/sched/sched_migrate_task/enable
+    echo 1 > /sys/kernel/debug/tracing/events/sched/sched_switch/enable
+    echo 1 > /sys/kernel/debug/tracing/events/sched/sched_wakeup_new/enable
     echo 1 > /sys/kernel/debug/tracing/events/sched/sched_wakeup/enable
     # sound
     echo 1 > /sys/kernel/debug/tracing/events/asoc/snd_soc_reg_read/enable
@@ -95,6 +81,8 @@ enable_sdm660_stm_events()
     echo 1 > /sys/kernel/debug/tracing/events/power/clock_set_rate/enable
     # regulator
     echo 1 > /sys/kernel/debug/tracing/events/regulator/enable
+    #cpufreq
+    echo 1 > /sys/kernel/debug/tracing/events/cpufreq_interactive/enable
     # power
     echo 1 > /sys/kernel/debug/tracing/events/msm_low_power/enable
     #thermal
