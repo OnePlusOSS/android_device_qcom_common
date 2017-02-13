@@ -37,6 +37,12 @@ else
     soc_hwplatform=`cat /sys/devices/system/soc/soc0/hw_platform` 2> /dev/null
 fi
 
+if [ -f /sys/devices/soc0/machine ]; then
+    soc_machine=`cat /sys/devices/soc0/machine` 2> /dev/null
+else
+    soc_machine=`cat /sys/devices/system/soc/soc0/machine` 2> /dev/null
+fi
+
 # Get hardware revision
 if [ -f /sys/devices/soc0/revision ]; then
     soc_revision=`cat /sys/devices/soc0/revision` 2> /dev/null
@@ -124,7 +130,13 @@ case "$usb_config" in
 	              setprop persist.sys.usb.config diag,adb
 	          ;;
                   *)
-	          case "$target" in
+		  soc_machine=${soc_machine:0:3}
+		  case "$soc_machine" in
+		    "SDA")
+	              setprop persist.sys.usb.config diag,adb
+		    ;;
+		    *)
+	            case "$target" in
                       "msm8916")
 		          setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb
 		      ;;
@@ -156,7 +168,9 @@ case "$usb_config" in
 	              *)
 		          setprop persist.sys.usb.config diag,adb
 		      ;;
-                  esac
+                    esac
+		    ;;
+		  esac
 	          ;;
 	      esac
 	      ;;
@@ -183,6 +197,11 @@ case "$target" in
         setprop sys.usb.controller "a800000.dwc3"
         setprop sys.usb.rndis.func.name "rndis_bam"
 	setprop sys.usb.rmnet.func.name "rmnet_bam"
+        ;;
+    "msmskunk")
+        setprop sys.usb.controller "a600000.dwc3"
+        setprop sys.usb.rndis.func.name "gsi"
+        setprop sys.usb.rmnet.func.name "gsi"
         ;;
     *)
 	;;
