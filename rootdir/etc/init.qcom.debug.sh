@@ -42,7 +42,7 @@ enable_stm_events()
         return
     fi
     #bail out if coresight-stm device node isn't present
-    if [ ! -d /dev/coresight-stm ]
+    if [ ! -e /dev/coresight-stm ]
     then
         return
     fi
