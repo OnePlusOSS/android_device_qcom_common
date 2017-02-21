@@ -58,7 +58,7 @@
 #define BMS_BATT_RES_ID_PATH    "/sys/class/power_supply/bms/resistance_id"
 #define PERSIST_BATT_INFO_PATH  "/persist/bms/batt_info.txt"
 
-#define USB_MAX_CURRENT_PATH    "/sys/class/power_supply/usb/max_current"
+#define USB_MAX_CURRENT_PATH    "/sys/class/power_supply/usb/current_max"
 #define USB_TYPEC_MODE_PATH     "/sys/class/power_supply/usb/typec_mode"
 
 #define USB500_UA               500000
@@ -355,13 +355,13 @@ void healthd_board_mode_charger_init()
 
     ret = read_file(CHARGER_TYPE_PATH, buff, sizeof(buff));
     if (ret >= 0) {
-        if (!strcmp(buff, "USB"))
+        if (strstr(buff, "USB"))
             usb_type_is_sdp = true;
     }
     memset(buff, 0, sizeof(buff));
     ret = read_file(USB_TYPEC_MODE_PATH, buff, sizeof(buff));
     if (ret >= 0) {
-        if (!strcmp(buff, "Source attached (default current)"))
+        if (strstr(buff, "Source attached (default current)"))
             typec_default_src = true;
     }
 
