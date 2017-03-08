@@ -1,0 +1,132 @@
+This is the release of Snapdragon LLVM ARM C/C++ Toolchain version 3.7.2. This is
+a cross toolchain built to run on x86 64-bit Ubuntu Linux (versions 10.04 and
+later) and Windows platform (64-bit, Windows 7). This Snapdragon LLVM
+ARM Compiler will generate code only for ARM targets and will not generate code
+for any of the other targets supported by llvm.org LLVM.
+
+The version 3.7.2 of Snapdragon LLVM ARM Compiler is based off the llvm.org 3.7
+tip as of Feb 2015. The Snapdragon LLVM ARM Toolchain 3.7.2 release includes
+proprietary features and optimizations that are not available in the llvm.org
+release.
+
+The Snapdragon LLVM ARM Compiler uses the integrated assembler for assembling
+and relies on GNU tools for linking.
+
+NOTE: GLIBCXX_3.4.18 or higher is required to run Snapdragon LLVM 3.7 on Ubuntu
+x86 64-bit hosts; this library is typically available as part of Ubuntu
+distribution or GCC-4.8 x86 distributions. 
+
+The complete user guide for this release of the Snapdragon LLVM ARM Compiler
+is avaialble as part of your download package under 
+llvm-Snapdragon_LLVM_for_Android_3.7/prebuilt/<platform>/Snapdragon
+_LLVM_ARM_37_User_Guide.pdf.
+
+Please post all questions about this release on
+http://developer.qualcomm.com/llvm-forum.
+
+The following are some of the key features in the 3.7.2 version compared to the
+3.6 version:
+
+1. Full support for building Android code base (AOSP) without any changes to
+the build system.
+
+2. A fully featured QC Linker that supports
+  - Link Time Optimization (LTO) for both 32-bit and 64-bit ARM targets
+  - LTO capability for Linux and Windows hosts. Note that alternative
+    LTO linkers such as Gold linker cannot be used on Windows with
+    LLVM.
+  - Support for Thread-Local Storage (TLS)
+  - Support for building full Android system (AOSP)
+  - Support for linker scripts to control and direct image creation.
+
+  By default, the NDK build system will use GNU linker for linking. However,
+  for LTO, the QC Linker will be invoked since only QC Linker has been verified
+  to fully support LTO for ARMv7 and AArch64 targets. To use QC Linker for
+  linking for non-LTO compilation, please specify "-fuse-ld=qcld" on the
+  command line.
+
+3. The Snapdragon LLVM ARM 3.7.2 toolchain release provides enhanced
+support for using profiling with Android APKs by 
+  - Improving user experience by eliminating the need to convert
+    android apks to standalone executables for profile generation
+    purposes.
+  - Supporting profile generation in multi-library applications.
+  - Enabling android apks built for profile generation to run in their natural
+    setting, with no other modifications needed, for generating profiles that
+    can be used for PGO
+
+4. Improvements to Profile Guided Optimizations (PGO) through improved inline
+heuristics, indirect call optimizations and new hot/cold code separation.
+
+5. Integration with MARE (Multicore Asynchronous Runtime Environment) to enable
+users to use an alternative Auto par runtime system. Please refer to section
+4.5.1 of the Snapdragon LLVM ARM Compiler user guide.
+
+6. Support for code generation for the new Kryo cpu by specifying -mcpu=kryo option.
+
+7. Auto vectorization is now enabled at -O2 optimization level, in addition to
+-O3 and higher levels, to enable application developers to realize the benefits
+of loop vectorization at default build levels.
+
+8. Support for building mips and x86 targets using the Snapdragon LLVM ARM 3.6
+build system. Please refer to the README for more details
+
+
+Options:
+
+To find out the most common options, please pass -help flag to the clang
+driver. This will report the Snapdragon LLVM ARM specific options and
+general ARM options first, before listing target independent options
+available in Snapdragon LLVM ARM Compiler.
+
+Compiler options for best performance:
+
+For 64-bit applications, we recommend using "-Ofast -mcpu=cortex-a57" options
+for best performance on Cortex-a57 cores, and "-Ofast -mcpu=cortex-a53" for
+best performance on Cortex-a53 cores.
+
+For 32-bit, we recommend using the "-Ofast -mcpu=krait" options for best
+performance of your application on Krait cores. For non-Krait 32-bit cores, we
+recommend using the "-Ofast" option. If you would like to avoid the generation
+of Krait specific instructions (hardware divide, fused-mac) to enable running
+on a variety of ARMv7 cores, but still optimize for best performance on Krait
+cores, we recommend the "-Ofast -mtune=krait -march=armv7-a" option list.
+
+The -Ofast option enables several high performance optimizations such as
+Auto-vectorizer. Please refer to section 3.4.19 of the Snapdragon LLVM ARM
+Compiler guide for more details.
+
+Compiler options for smallest code-size:
+
+We recommending using the "-Osize -mthumb" options to generate the most compact
+code with the Snapdragon LLVM 3.7.2 compiler. Please refer to section 3.4.19 for
+more details on the -Osize optimization level
+
+Compiling for AArch64:
+
+To compile for AArch64 (ARMv8 64-bit mode), please pass 
+
+-target aarch64-linux-androieabi
+
+option to clang.
+
+Compiling for AArch32:
+
+To compile for AArch32 please pass
+
+-target armv8-linux-android
+
+option to clang. Note that even though AArch32 ISA is fully backward compatible
+with ARMv7 ISA, there are new instructions in AArch32 ISA compared to ARMv7
+ISA. This means that AArch32 executables cannot be executed on ARMv7 cores such
+as Krait.
+
+Please refer to section 3.4.19 of the Snapdragon LLVM ARM Compiler user guide to
+learn about various optimization flags.
+
+LLVM's Support for GCC command line options:
+
+Most of the commonly used GCC options are supported by LLVM as well. A detailed
+list of options supported is listed in chapter 3 of the Snapdragon LLVM ARM
+Compiler user guide.  
+
