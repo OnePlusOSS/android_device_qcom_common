@@ -46,8 +46,12 @@ on mmi
     # ========================================================
     #              This is FFBM only settings.
     # ========================================================
+
+    # A/B update verifier that marks a successful boot.
+    exec - root cache -- /system/bin/update_verifier nonencrypted
+
     #mkdir for factory data files.
-    mkdir /cache/FTM_AP 0750 root root
+    mkdir /persist/FTM_AP 0750 root root
 
     #set property for sys.usb.config
     setprop sys.usb.config diag,adb
