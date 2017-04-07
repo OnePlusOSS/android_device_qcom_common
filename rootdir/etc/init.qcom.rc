@@ -324,6 +324,7 @@ on post-fs-data
     mkdir /data/misc/SelfHost/storage/ 0700 system shell
     mkdir /data/misc/SelfHost/Running/ 2750 system shell
     mkdir /data/misc/SelfHost/socket/ 2770 system system
+    mkdir /data/misc/OTA/ 0750 system system
 
     #Create PERFD deamon related dirs
     mkdir /data/system/perfd 0770 root system
@@ -370,6 +371,10 @@ on post-fs-data
     # set aggressive read ahead for dm-0 and dm-1 during boot up
     write /sys/block/dm-0/queue/read_ahead_kb 2048
     write /sys/block/dm-1/queue/read_ahead_kb 2048
+
+    # create QDMA related dirs
+    mkdir /data/misc/qdmastats 0700 system system
+    mkdir /data/misc/qdma 0770 system system
 
 service nqnfcinfo /system/vendor/bin/nqnfcinfo
     class late_start
@@ -544,6 +549,7 @@ service fmhal_service /system/bin/fmhal_service
     user bluetooth
     group bluetooth net_bt_admin
     disabled
+    oneshot
 
 service config_bt_addr /system/bin/btnvtool -O
     class core
@@ -1121,6 +1127,11 @@ service logdumpd /system/bin/logcat -b all -v threadtime -D -w /dev/block/bootde
 # Logdumpd is enabled only for userdebug non-perf build
 on property:ro.logdumpd.enabled=1
     start logdumpd
+
+service qdmastatsd /system/bin/qdmastatsd
+    class late_start
+    user system
+    group system
 
 service time_daemon /system/bin/time_daemon
     class main
