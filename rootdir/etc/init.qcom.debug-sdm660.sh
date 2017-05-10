@@ -78,11 +78,12 @@ enable_sdm660_stm_events()
     # video
     echo 1 > /sys/kernel/debug/tracing/events/msm_vidc/enable
     # clock
-    echo 1 > /sys/kernel/debug/tracing/events/power/clock_set_rate/enable
+    echo 1 > /sys/kernel/debug/tracing/events/clk/clk_set_rate/enable
+    echo 1 > /sys/kernel/debug/tracing/events/clk/clk_set_rate_complete/enable
     # regulator
     echo 1 > /sys/kernel/debug/tracing/events/regulator/enable
     #cpufreq
-    echo 1 > /sys/kernel/debug/tracing/events/cpufreq_interactive/enable
+    echo 1 > /sys/kernel/debug/tracing/events/cpufreq_interactive/cpufreq_interactive_setspeed/enable
     # power
     echo 1 > /sys/kernel/debug/tracing/events/msm_low_power/enable
     # Disable cluster entry/exit LPM events
