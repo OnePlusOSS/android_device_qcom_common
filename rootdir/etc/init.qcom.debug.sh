@@ -363,22 +363,39 @@ enable_sdm660_dcc_config()
     echo 0x17812C18 > $DCC_PATH/config    #PMIC_STS
 
     #APCS_CCI_GLADIATOR
-    echo 0x07BA0008 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_CFGIO
+    echo 0x07BA0000 5 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_CFGIO
     echo 0x07BA0078 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_CFGDUT
     echo 0x07BA0080 3 > $DCC_PATH/config  #GNOC ACE0 Status
     echo 0x07BA00A0 3 > $DCC_PATH/config  #GNOC ACE1 Status
-    echo 0x07BA1014 11 > $DCC_PATH/config    #APCS_CCI_GLADIATOR_MAIN_CRIXUS_MAIN ERRORS
-    echo 0x07BA4008 4 > $DCC_PATH/config    #APCS_CCI_PD_GNOC_MAIN_PROGPOWERCONTROLLER_TARGET0
-    echo 0x07BA800C 12 > $DCC_PATH/config #APCS_CCI_TRACE_MAIN ERRORS
+    echo 0x07BA1000 19 > $DCC_PATH/config #APCS_CCI_GLADIATOR_MAIN_CRIXUS_MAIN ERRORS
+    echo 0x07BA4000 6 > $DCC_PATH/config  #APCS_CCI_PD_GNOC_MAIN_PROGPOWERCONTROLLER_TARGET0
+    echo 0x07BA4100 2 > $DCC_PATH/config  #APCS_CCI_NS_SIDEBANDS_MAIN_SIDEBANDMANAGER
+    echo 0x07BA4150 3 > $DCC_PATH/config  #APCS_CCI_NS_SIDEBANDS_MAIN_SIDEBANDMANAGER_FLAGOUTSET0
+    echo 0x07BA4200 2 > $DCC_PATH/config  #APCS_CCI_MMAP_MODES_SIDEBANDS_MAIN_SIDEBANDMANAGER
+    echo 0x07BA4250 3 > $DCC_PATH/config  #APCS_CCI_MMAP_MODES_SIDEBANDS_MAIN_SIDEBANDMANAGER_FLAGOUTSET0
+    echo 0x07BA8000 15 > $DCC_PATH/config #APCS_CCI_TRACE_MAIN ERRORS
+    echo 0x07BA8100 6 > $DCC_PATH/config  #APCS_CCI_ERR_SIDEBANDS_MAIN_SIDEBANDMANAGER
+    echo 0x07BA8200 2 > $DCC_PATH/config  #APCS_CCI_NOPNDG_SIDEBANDS_MAIN_SIDEBANDMANAGER
     echo 0x07BA82B0 > $DCC_PATH/config    #APCS_CCI_PORT_STATUS
-    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 8 TIMES
-    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 8 TIMES
-    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 8 TIMES
-    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 8 TIMES
-    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 8 TIMES
-    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 8 TIMES
-    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 8 TIMES
-    echo 0x07BA1000 4 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 8 TIMES
+    echo 0x07BA8300 6 > $DCC_PATH/config  #APCS_CCI_PERF_SIDEBANDS_MAIN_SIDEBANDMANAGER
+    echo 0x07BA8400 2 > $DCC_PATH/config  #APCS_CCI_PWRACTIVE_SIDEBANDS_MAIN_SIDEBANDMANAGER
+    echo 0x07BA84B0 > $DCC_PATH/config    #APCS_CCI_PWRACTIVE_SIDEBANDS_MAIN_SIDEBANDMANAGER_SENSEIN0
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
+    echo 0x07BA1000 4 > $DCC_PATH/config    #GLADIATOR STALLED TRANSACTION READ 16 TIMES
     echo 0x07BA1008 2 > $DCC_PATH/config    #Read Same addresses 100 times
     echo 0x07BA1008 2 > $DCC_PATH/config
     echo 0x07BA1008 2 > $DCC_PATH/config
@@ -898,6 +915,20 @@ enable_sdm660_dcc_config()
     echo 0x17BF0200 > $DCC_PATH/config
     echo 0x17BF0100 > $DCC_PATH/config
 
+    ##Hang detect registers
+    echo 0x179880B4 2 > $DCC_PATH/config  #Core Hang Registers
+    echo 0x179980B4 2 > $DCC_PATH/config
+    echo 0x179A80B4 2 > $DCC_PATH/config
+    echo 0x179B80B4 2 > $DCC_PATH/config
+    echo 0x178880B4 2 > $DCC_PATH/config
+    echo 0x178980B4 2 > $DCC_PATH/config
+    echo 0x178A80B4 2 > $DCC_PATH/config
+    echo 0x178B80B4 2 > $DCC_PATH/config
+    echo 0x179D1228 >  $DCC_PATH/config
+
+    echo 0x179D1404 6 > $DCC_PATH/config #Gladiator Hang Registers
+    echo 0x179D1434 5 > $DCC_PATH/config
+
     echo  1 > $DCC_PATH/enable
 }
 
@@ -1247,6 +1278,33 @@ enable_msm8998_core_hang_config()
     #echo 0x1 > /sys/devices/system/cpu/hang_detect_gold/enable
 }
 
+enable_sdm660_core_hang_config()
+{
+    CORE_PATH_SILVER="/sys/devices/system/cpu/hang_detect_silver"
+    CORE_PATH_GOLD="/sys/devices/system/cpu/hang_detect_gold"
+    if [ ! -d $CORE_PATH ]; then
+        echo "CORE hang does not exist on this build."
+        return
+    fi
+
+    #select instruction retire as the pmu event
+    echo 0x7 > $CORE_PATH_SILVER/pmu_event_sel
+    echo 0xA > $CORE_PATH_GOLD/pmu_event_sel
+    case "$soc_id" in
+        "318" | "327" )  ##Overide for SDM630
+            echo 0x7 > $CORE_PATH_GOLD/pmu_event_sel
+        ;;
+    esac
+
+    #set the threshold to around 100 milli-second
+    echo 0x1D5804 > $CORE_PATH_SILVER/threshold
+    echo 0x1D5804 > $CORE_PATH_GOLD/threshold
+
+    #To the enable core hang detection
+    echo 0x1 > /sys/devices/system/cpu/hang_detect_silver/enable
+    echo 0x1 > /sys/devices/system/cpu/hang_detect_gold/enable
+}
+
 enable_msm8998_osm_wdog_status_config()
 {
     echo 1 > /sys/kernel/debug/osm/pwrcl_clk/wdog_trace_enable
@@ -1254,6 +1312,25 @@ enable_msm8998_osm_wdog_status_config()
 }
 
 enable_msm8998_gladiator_hang_config()
+{
+    GLADIATOR_PATH="/sys/devices/system/cpu/gladiator_hang_detect"
+    if [ ! -d $GLADIATOR_PATH ]; then
+        echo "Gladiator hang does not exist on this build."
+        return
+    fi
+
+    #set the threshold to around 150 milli-second
+    echo 0x002C0406 > $GLADIATOR_PATH/ace_threshold
+    echo 0x002C0406 > $GLADIATOR_PATH/io_threshold
+    echo 0x002C0406 > $GLADIATOR_PATH/m1_threshold
+    echo 0x002C0406 > $GLADIATOR_PATH/m2_threshold
+    echo 0x002C0406 > $GLADIATOR_PATH/pcio_threshold
+
+    #To enable gladiator hang detection
+    #echo 0x1 > /sys/devices/system/cpu/gladiator_hang_detect/enable
+}
+
+enable_sdm660_gladiator_hang_config()
 {
     GLADIATOR_PATH="/sys/devices/system/cpu/gladiator_hang_detect"
     if [ ! -d $GLADIATOR_PATH ]; then
@@ -1269,7 +1346,7 @@ enable_msm8998_gladiator_hang_config()
     echo 0x0002a300 > $GLADIATOR_PATH/pcio_threshold
 
     #To enable gladiator hang detection
-    #echo 0x1 > /sys/devices/system/cpu/gladiator_hang_detect/enable
+    echo 0x1 > /sys/devices/system/cpu/gladiator_hang_detect/enable
 }
 
 enable_osm_wdog_status_config()
@@ -1293,6 +1370,11 @@ enable_core_gladiator_hang_config()
             echo "Enabling core & gladiator config for msm8998"
             enable_msm8998_core_hang_config
             enable_msm8998_gladiator_hang_config
+        ;;
+        "sdm660")
+            echo "Enabling core & gladiator config for msm8998"
+            enable_sdm660_core_hang_config
+            enable_sdm660_gladiator_hang_config
         ;;
     esac
 }
