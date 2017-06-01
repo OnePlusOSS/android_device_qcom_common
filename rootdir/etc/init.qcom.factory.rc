@@ -32,6 +32,11 @@ service fastmmi /system/bin/mmi
     group root
     disabled
 
+service qseecomd /system/bin/qseecomd
+   class core
+   user root
+   group root
+
 on property:sys.boot_mode=ffbm
     write -p /dev/block /dev/block/bootdevice/by-name/misc "ffbm-01"
 
@@ -80,6 +85,11 @@ on mmi
     start ptt_ffbm
     start tftp_server
     start cnss-daemon
+    start qseecomd
+    start qfp-daemon
+
+    # Below line should not mainline
+    setprop persist.qfp true
 
 on ffbm
     trigger early-fs
