@@ -71,6 +71,10 @@ on boot
     chown bluetooth bluetooth /sys/module/hci_uart/parameters/ath_btwrite
     chown system system /sys/module/sco/parameters/disable_esco
     chown bluetooth bluetooth /sys/module/hci_smd/parameters/hcismd_set
+    chown system system /sys/module/msm_core/parameters/polling_interval
+    chown system system /sys/module/msm_core/parameters/disabled
+    chown system system /sys/kernel/debug/msm_core/enable
+    chown system system /sys/kernel/debug/msm_core/ptable
     chown system system /sys/module/radio_iris_transport/parameters/fmsmd_set
     chmod 0660 /sys/module/bluetooth_power/parameters/power
     chmod 0660 /sys/module/hci_smd/parameters/hcismd_set
@@ -184,9 +188,15 @@ on boot
     chown system system /sys/class/sensors/MPU6050-gyro/enable
     chown system system /sys/class/sensors/MPU6050-gyro/poll_delay
 
+    # Create directory used for display
+    mkdir /persist/display 0770 system graphics
+
 # msm specific files that need to be created on /data
 on post-fs-data
     mkdir /data/vendor/misc 0770 system system
+
+    # Create directory used by display clients
+    mkdir /data/vendor/display 0770 system graphics
 
     #Create directories for Fingerprint
     mkdir /data/vendor/misc/qti_fp 0770 system system
@@ -489,8 +499,6 @@ service dpmd /system/bin/dpmd
 
 service dpmQmiMgr /system/vendor/bin/dpmQmiMgr
     class main
-    user system
-    group system
 
 service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class core
@@ -1042,6 +1050,8 @@ service seemp_healthd /system/vendor/bin/seemp_healthd
 
 on charger
     setprop persist.sys.usb.config charging
+    load_system_props
+    start qcom-post-boot
 
 #add poweroffhandler
 service poweroffhandler /system/vendor/bin/poweroffhandler
