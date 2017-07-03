@@ -88,9 +88,6 @@ on mmi
     start qseecomd
     start qfp-daemon
 
-    # Below line should not mainline
-    setprop persist.qfp true
-
 on ffbm
     trigger early-fs
     trigger factory-fs
