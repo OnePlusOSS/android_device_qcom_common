@@ -273,6 +273,31 @@ case "$target" in
         if [ $cap_ver -eq 1 ]; then
             setprop media.msm8953.version 1
             setprop media.settings.xml /etc/media_profiles_8953_v1.xml
+    "sdm660")
+        if [ -f /firmware/verinfo/ver_info.txt ]; then
+            Meta_Build_ID=`cat /firmware/verinfo/ver_info.txt |
+                    sed -n 's/^[^:]*Meta_Build_ID[^:]*:[[:blank:]]*//p' |
+                    sed 's/.*LA.\(.*\)/\1/g' | cut -d \- -f 1`
+            # In SDM660 if meta version is greater than 2.1, need
+            # to use the new vendor-ril which supports L+L feature
+            # otherwise use the existing old one.
+            product=`getprop ro.product.device`
+            case "$product" in
+            "sdm660_64")
+                if [ "$Meta_Build_ID" \< "2.1" ]; then
+                    setprop vendor.rild.libpath "/vendor/lib64/libril-qc-qmi-1.so"
+                else
+                    setprop vendor.rild.libpath "/vendor/lib64/libril-qc-hal-qmi.so"
+                fi
+                ;;
+            "sdm660_32")
+                if [ "$Meta_Build_ID" \< "2.1" ]; then
+                    setprop vendor.rild.libpath "/vendor/lib/libril-qc-qmi-1.so"
+                else
+                    setprop vendor.rild.libpath "/vendor/lib/libril-qc-hal-qmi.so"
+                fi
+                ;;
+            esac
         fi
         ;;
 esac
