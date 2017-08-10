@@ -665,6 +665,8 @@ STMLOG := libstm-log
 
 #THERMAL_HAL
 THERMAL_HAL := thermal.msm8998
+THERMAL_HAL += android.hardware.thermal@1.0-impl
+THERMAL_HAL += android.hardware.thermal@1.0-service
 
 #TSLIB_EXTERNAL
 TSLIB_EXTERNAL := corgi
@@ -682,6 +684,8 @@ TSLIB_EXTERNAL += ts
 
 #VR_HAL
 VR_HAL := vr.msm8998
+VR_HAL += android.hardware.vr@1.0-impl
+VR_HAL += android.hardware.vr@1.0-service
 
 #QRGND
 QRGND := qrngd
@@ -740,6 +744,16 @@ WLAN += qca_cld_wlan.ko
 #FSTMAN
 FSTMAN := fstman
 FSTMAN += fstman.ini
+
+# WIGIG
+WIGIG := host_manager_11ad
+WIGIG += wigig_remoteserver
+WIGIG += wigig_wiburn
+WIGIG += wigig_logcollector
+WIGIG += wigig_logcollector.ini
+WIGIG += libwigig_utils
+WIGIG += libwigig_flashaccess
+WIGIG += libwigig_pciaccess
 
 PRODUCT_PACKAGES := \
     AccountAndSyncSettings \
@@ -845,6 +859,7 @@ PRODUCT_PACKAGES += $(MM_CORE)
 PRODUCT_PACKAGES += $(MM_VIDEO)
 ifeq ($(strip $(TARGET_USES_NQ_NFC)),true)
 PRODUCT_PACKAGES += $(NQ_NFC)
+PRODUCT_BOOT_JARS += com.nxp.nfc.nq
 endif
 PRODUCT_PACKAGES += $(OPENCORE)
 PRODUCT_PACKAGES += $(PPP)
@@ -869,6 +884,7 @@ PRODUCT_PACKAGES += $(CRDA)
 PRODUCT_PACKAGES += $(WLAN)
 PRODUCT_PACKAGES += $(IPACM)
 PRODUCT_PACKAGES += $(FSTMAN)
+PRODUCT_PACKAGES += $(WIGIG)
 PRODUCT_PACKAGES += $(IMS_EXT)
 # Temp workarround for b/36603742
 PRODUCT_PACKAGES += android.hidl.manager@1.0-java
@@ -1025,6 +1041,9 @@ endif
 ifeq ($(strip $(TARGET_USES_QTIC_EXTENSION)),true)
 PRODUCT_BOOT_JARS += com.qualcomm.qti.camera
 endif
+
+# Preloading QPerformance jar to ensure faster perflocks in Boost Framework
+PRODUCT_BOOT_JARS += QPerformance
 
 # OEM Unlock reporting
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
