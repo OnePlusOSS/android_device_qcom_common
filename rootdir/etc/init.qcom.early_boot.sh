@@ -273,6 +273,8 @@ case "$target" in
         if [ $cap_ver -eq 1 ]; then
             setprop media.msm8953.version 1
             setprop media.settings.xml /etc/media_profiles_8953_v1.xml
+        fi
+        ;;
     "sdm660")
         if [ -f /firmware/verinfo/ver_info.txt ]; then
             Meta_Build_ID=`cat /firmware/verinfo/ver_info.txt |
