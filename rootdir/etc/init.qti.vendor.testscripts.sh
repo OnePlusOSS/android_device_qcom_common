@@ -1,4 +1,5 @@
-# Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
+#!/vendor/bin/sh
+# Copyright (c) 2015,2017 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -24,45 +25,9 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-
-write /proc/sys/kernel/kptr_restrict 0
-
-
-#testscript domains
-service qti-testscripts   /system/etc/init.qcom.testscripts.sh
-    class late_start
-    user root
-    disabled
-    oneshot
-
-service vendor-qti-testscripts  /vendor/bin/sh /vendor/bin/init.qti.vendor.testscripts.sh
-    class late_start
-    user root
-    disabled
-    oneshot
-
-# Coresight early boot service
-service cs-early-boot /vendor/bin/sh /persist/coresight/qdss.agent.sh early-boot /vendor/bin/init.qcom.debug.sh
-    class core
-    user root
-    oneshot
-    seclabel u:r:vendor-qti-testscripts:s0
-
-# Coresight post boot servive
-service cs-post-boot /vendor/bin/sh /persist/coresight/qdss.agent.sh post-boot /vendor/bin/init.qcom.debug.sh
-    user root
-    disabled
-    oneshot
-    seclabel u:r:vendor-qti-testscripts:s0
-
-on property:sys.boot_completed=1
-    start cs-post-boot
-    start qti-testscripts
-#    exec - system system -- /system/etc/init.qcom.testscripts.sh
-    start vendor-qti-testscripts
-
-on property:sys.dbg.coresight.enable=1
-    write /persist/coresight/enable 1
-
-on property:sys.dbg.coresight.enable=0
-    write /persist/coresight/enable 0
+# this is the file for test teams to trigger their test setup.
+# This is going to use vendor shell utilties.
+#
+#
+# All the output files will be created under root privilege. Please use
+# "adb root" before pulling the generated files.
