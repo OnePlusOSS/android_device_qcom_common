@@ -1,6 +1,5 @@
-#! /system/bin/sh
-
-# Copyright (c) 2015, The Linux Foundation. All rights reserved.
+#!/vendor/bin/sh
+# Copyright (c) 2015,2017 The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -26,17 +25,9 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-
-# This is the file for test teams to trigger their test setup.
+# this is the file for test teams to trigger their test setup.
+# This is going to use vendor shell utilties.
 #
-# Sample command: /system/bin/sh /sdcard/command.sh
+#
 # All the output files will be created under root privilege. Please use
 # "adb root" before pulling the generated files.
-
-target=`getprop ro.board.platform`
-
-case "$target" in
-    "msm8996")
-	echo 1 > /sys/kernel/debug/scm_errata/kryo_e76
-	;;
-esac
