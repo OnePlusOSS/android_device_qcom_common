@@ -2685,6 +2685,15 @@ case "$target" in
         echo 1 > /sys/devices/system/cpu/cpu3/online
         echo 0 > /sys/module/lpm_levels/parameters/sleep_disabled
 
+	# Tune core control
+	echo 2 > /sys/devices/system/cpu/cpu0/core_ctl/min_cpus
+	max_freq=`cat /sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq`
+	min_freq=800000
+	echo $((min_freq*100 / max_freq)) $((min_freq*100 / max_freq)) $((66*1000000 / max_freq)) \
+		$((55*1000000 / max_freq)) > /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres
+	echo $((33*1000000 / max_freq)) > /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres
+	echo 100 > /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms
+
         for devfreq_gov in /sys/class/devfreq/*qcom,cpubw*/governor
         do
             echo "bw_hwmon" > $devfreq_gov
@@ -2866,3 +2875,9 @@ case "$console_config" in
         echo "Enable console config to $console_config"
         ;;
 esac
+
+# Parse misc partition path and set property
+misc_link=$(ls -l /dev/block/bootdevice/by-name/misc)
+real_path=${misc_link##*>}
+setprop persist.mmi.misc_dev_path $real_path
+
