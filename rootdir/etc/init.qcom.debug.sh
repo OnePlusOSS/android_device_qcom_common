@@ -27,7 +27,7 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-HERE=/system/etc
+HERE=/vendor/bin
 source $HERE/init.qcom.debug-sdm660.sh
 # function to enable ftrace events to CoreSight STM
 enable_stm_events()

@@ -257,7 +257,7 @@ on post-fs-data
     mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
-    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    mkdir /data/misc/dhcp 0777 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
 
     #create port-bridge log dir
@@ -731,9 +731,19 @@ service wigighalsvc /vendor/bin/wigighalsvc
     group wifi
     disabled
 
+service wigignpt /vendor/bin/wigignpt
+    class main
+    socket wigignpt stream 660 system wifi
+    user system
+    group wifi net_admin
+    disabled
+
 on property:persist.vendor.wigig.enable=1
     insmod /vendor/lib/modules/wil6210.ko alt_ifname=1
     start wigighalsvc
+
+on property:persist.vendor.wigig.npt.enable=1
+    start wigignpt
 
 service dhcpcd_wlan0 /system/bin/dhcpcd -ABKLG
     class late_start
@@ -1115,3 +1125,8 @@ service vppservice /vendor/bin/vppservice
 # Set vendor-ril lib path based on Meta version
 on property:vendor.rild.libpath=*
     setprop rild.libpath ${vendor.rild.libpath}
+
+service seemp_healthd /vendor/bin/seemp_healthd
+    class late_start
+    user system
+    group system
