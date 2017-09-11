@@ -1665,9 +1665,9 @@ case "$target" in
             echo 3 > /proc/sys/kernel/sched_window_stats_policy
             echo 3 > /proc/sys/kernel/sched_ravg_hist_size
         fi
-        #Apply settings for sdm660
+        #Apply settings for sdm660, sdm636,sda636
         case "$soc_id" in
-                "317" | "324" | "325" | "326" )
+                "317" | "324" | "325" | "326" | "345" | "346" )
 
             echo 2 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
             echo 60 > /sys/devices/system/cpu/cpu4/core_ctl/busy_up_thres
