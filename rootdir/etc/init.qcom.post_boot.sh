@@ -2466,6 +2466,9 @@ case "$target" in
             echo 400 > $memlat/mem_latency/ratio_ceil
         done
 
+	#Gold L3 ratio ceil
+        echo 4000 > /sys/class/devfreq/soc:qcom,l3-cpu4/mem_latency/ratio_ceil
+
 	echo "cpufreq" > /sys/class/devfreq/soc:qcom,mincpubw/governor
 
 	# cpuset parameters
@@ -2510,6 +2513,7 @@ case "$target" in
 	echo 400000 > /proc/sys/kernel/sched_freq_dec_notify
 	echo 5 > /proc/sys/kernel/sched_spill_nr_run
 	echo 1 > /proc/sys/kernel/sched_restrict_cluster_spill
+        echo 1 > /proc/sys/kernel/sched_prefer_sync_wakee_to_waker
 	start iop
 
         # disable thermal bcl hotplug to switch governor
@@ -2879,5 +2883,5 @@ esac
 # Parse misc partition path and set property
 misc_link=$(ls -l /dev/block/bootdevice/by-name/misc)
 real_path=${misc_link##*>}
-setprop persist.mmi.misc_dev_path $real_path
+setprop persist.vendor.mmi.misc_dev_path $real_path
 
