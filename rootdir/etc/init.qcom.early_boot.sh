@@ -257,6 +257,12 @@ case "$target" in
                 fi
                 ;;
         esac
+        case "$soc_hwid" in
+                "319") #apq8098_latv
+                echo "\n==Loading ALX module==\n"
+                insmod /system/lib/modules/alx.ko
+		;;
+	esac
         ;;
     "sdm845")
         case "$soc_hwplatform" in
