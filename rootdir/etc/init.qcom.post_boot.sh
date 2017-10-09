@@ -1689,6 +1689,7 @@ case "$target" in
             echo 5 > /proc/sys/kernel/sched_spill_nr_run
             echo 1 > /proc/sys/kernel/sched_restrict_cluster_spill
             echo 100000 > /proc/sys/kernel/sched_short_burst_ns
+            echo 1 > /proc/sys/kernel/sched_prefer_sync_wakee_to_waker
 
             # cpuset settings
             echo 0-3 > /dev/cpuset/background/cpus
