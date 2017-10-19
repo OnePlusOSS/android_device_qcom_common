@@ -66,7 +66,9 @@ function set_density_by_fb() {
     if [ -z $fb_width ]; then
         setprop ro.sf.lcd_density 320
     else
-        if [ $fb_width -ge 1080 ]; then
+        if [ $fb_width -ge 1440 ]; then
+           setprop ro.sf.lcd_density 560
+        elif [ $fb_width -ge 1080 ]; then
            setprop ro.sf.lcd_density 480
         elif [ $fb_width -ge 720 ]; then
            setprop ro.sf.lcd_density 320 #for 720X1280 resolution
@@ -221,9 +223,10 @@ case "$target" in
         # MSM8937 and MSM8940  variants supports OpenGLES 3.1
         # 196608 is decimal for 0x30000 to report version 3.0
         # 196609 is decimal for 0x30001 to report version 3.1
+        # 196610 is decimal for 0x30002 to report version 3.2
         case "$soc_hwid" in
             294|295|296|297|298|313)
-                setprop ro.opengles.version 196609
+                setprop ro.opengles.version 196610
                 ;;
             303|307|308|309)
                 # Vulkan is not supported for 8917 variants
@@ -275,34 +278,34 @@ case "$target" in
             setprop media.settings.xml /etc/media_profiles_8953_v1.xml
         fi
         ;;
-    "sdm660")
-        if [ -f /firmware/verinfo/ver_info.txt ]; then
-            Meta_Build_ID=`cat /firmware/verinfo/ver_info.txt |
-                    sed -n 's/^[^:]*Meta_Build_ID[^:]*:[[:blank:]]*//p' |
-                    sed 's/.*LA.\(.*\)/\1/g' | cut -d \- -f 1`
-            # In SDM660 if meta version is greater than 2.1, need
-            # to use the new vendor-ril which supports L+L feature
-            # otherwise use the existing old one.
-            product=`getprop ro.product.device`
-            case "$product" in
-            "sdm660_64")
-                if [ "$Meta_Build_ID" \< "2.1" ]; then
-                    setprop vendor.rild.libpath "/vendor/lib64/libril-qc-qmi-1.so"
-                else
-                    setprop vendor.rild.libpath "/vendor/lib64/libril-qc-hal-qmi.so"
-                fi
-                ;;
-            "sdm660_32")
-                if [ "$Meta_Build_ID" \< "2.1" ]; then
-                    setprop vendor.rild.libpath "/vendor/lib/libril-qc-qmi-1.so"
-                else
-                    setprop vendor.rild.libpath "/vendor/lib/libril-qc-hal-qmi.so"
-                fi
-                ;;
-            esac
+esac
+
+# In mpss AT version is greater than 3.1, need
+# to use the new vendor-ril which supports L+L feature
+# otherwise use the existing old one.
+if [ -f /firmware/verinfo/ver_info.txt ]; then
+    modem=`cat /firmware/verinfo/ver_info.txt |
+            sed -n 's/^[^:]*modem[^:]*:[[:blank:]]*//p' |
+            sed 's/.*AT.\(.*\)/\1/g' | cut -d \- -f 1`
+    zygote=`getprop ro.zygote`
+    case "$zygote" in
+    "zygote64_32")
+        if [ "$modem" \< "3.1" ]; then
+            setprop vendor.rild.libpath "/vendor/lib64/libril-qc-qmi-1.so"
+        else
+            setprop vendor.rild.libpath "/vendor/lib64/libril-qc-hal-qmi.so"
         fi
         ;;
-esac
+    "zygote32")
+        if [ "$modem" \< "3.1" ]; then
+            setprop vendor.rild.libpath "/vendor/lib/libril-qc-qmi-1.so"
+        else
+            setprop vendor.rild.libpath "/vendor/lib/libril-qc-hal-qmi.so"
+        fi
+        ;;
+    esac
+fi
+
 #set default lcd density
 #Since lcd density has read only
 #property, it will not overwrite previous set

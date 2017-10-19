@@ -1181,6 +1181,8 @@ case "$target" in
                 # Apply inter-cluster load balancer restrictions
                 echo 1 > /proc/sys/kernel/sched_restrict_cluster_spill
 
+                # set sync wakee policy tunable
+                echo 1 > /proc/sys/kernel/sched_prefer_sync_wakee_to_waker
 
                 for devfreq_gov in /sys/class/devfreq/qcom,mincpubw*/governor
                 do
@@ -1665,9 +1667,9 @@ case "$target" in
             echo 3 > /proc/sys/kernel/sched_window_stats_policy
             echo 3 > /proc/sys/kernel/sched_ravg_hist_size
         fi
-        #Apply settings for sdm660
+        #Apply settings for sdm660, sdm636,sda636
         case "$soc_id" in
-                "317" | "324" | "325" | "326" )
+                "317" | "324" | "325" | "326" | "345" | "346" )
 
             echo 2 > /sys/devices/system/cpu/cpu4/core_ctl/min_cpus
             echo 60 > /sys/devices/system/cpu/cpu4/core_ctl/busy_up_thres
@@ -2262,7 +2264,8 @@ case "$target" in
         bcl_soc_hotplug_mask=`cat /sys/devices/soc/soc:qcom,bcl/hotplug_soc_mask`
         echo 0 > /sys/devices/soc/soc:qcom,bcl/hotplug_soc_mask
         echo -n enable > /sys/devices/soc/soc:qcom,bcl/mode
-
+        # set sync wakee policy tunable
+        echo 1 > /proc/sys/kernel/sched_prefer_sync_wakee_to_waker
         # configure governor settings for little cluster
         echo "interactive" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
         echo 1 > /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load
@@ -2466,6 +2469,9 @@ case "$target" in
             echo 400 > $memlat/mem_latency/ratio_ceil
         done
 
+	#Gold L3 ratio ceil
+        echo 4000 > /sys/class/devfreq/soc:qcom,l3-cpu4/mem_latency/ratio_ceil
+
 	echo "cpufreq" > /sys/class/devfreq/soc:qcom,mincpubw/governor
 
 	# cpuset parameters
@@ -2510,6 +2516,7 @@ case "$target" in
 	echo 400000 > /proc/sys/kernel/sched_freq_dec_notify
 	echo 5 > /proc/sys/kernel/sched_spill_nr_run
 	echo 1 > /proc/sys/kernel/sched_restrict_cluster_spill
+        echo 1 > /proc/sys/kernel/sched_prefer_sync_wakee_to_waker
 	start iop
 
         # disable thermal bcl hotplug to switch governor
@@ -2879,5 +2886,5 @@ esac
 # Parse misc partition path and set property
 misc_link=$(ls -l /dev/block/bootdevice/by-name/misc)
 real_path=${misc_link##*>}
-setprop persist.mmi.misc_dev_path $real_path
+setprop persist.vendor.mmi.misc_dev_path $real_path
 
