@@ -2771,6 +2771,7 @@ case "$target" in
         setprop sys.post_boot.parsed 1
     ;;
     "msm8952")
+        echo 128 > /sys/block/dm-0/queue/read_ahead_kb
         setprop sys.post_boot.parsed 1
     ;;
     "msm8937" | "msm8953")
