@@ -283,6 +283,28 @@ case "$target" in
             setprop media.msm8953.version 1
         fi
         ;;
+    "msm8952")
+      case "$soc_hwid" in
+              278)
+                  setprop media.msm8956hw 1
+                  if [ -f /sys/devices/soc0/platform_version ]; then
+                     hw_ver=`cat /sys/devices/soc.0/1d00000.qcom,vidc/version` 2> /dev/null
+                     if [ $hw_ver -eq 1 ]; then
+                         setprop media.msm8956.version 1
+                     fi
+                  fi
+                  ;;
+               266|277)
+                    setprop media.msm8956hw 1
+                    if [ -f /sys/devices/soc0/platform_version ]; then
+                        hw_ver=`cat /sys/devices/soc.0/1d00000.qcom,vidc/version` 2> /dev/null
+                        if [ $hw_ver -eq 1 ]; then
+                            setprop media.msm8956.version 1
+                        fi
+                    fi
+                    ;;
+      esac
+      ;;
 esac
 
 # In mpss AT version is greater than 3.1, need
