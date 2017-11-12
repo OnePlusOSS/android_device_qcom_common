@@ -177,9 +177,6 @@ CIMAX := libcimax_spi
 CM :=CMFileManager
 #CM += Trebuchet
 
-#Default Launcher
-DELAUN := Launcher3
-
 #CONNECTIVITY
 CONNECTIVITY := libcnefeatureconfig
 CONNECTIVITY += services-ext
@@ -798,6 +795,18 @@ PRODUCT_PACKAGES := \
     a4wpservice \
     wipowerservice
 
+ifeq ($(TARGET_HAS_LOW_RAM),true)
+    DELAUN := Launcher3Go
+else
+    # Live Wallpapers
+    PRODUCT_PACKAGES += \
+            LiveWallpapers \
+            LiveWallpapersPicker \
+            VisualizationWallpapers
+
+    DELAUN := Launcher3
+endif
+
 PRODUCT_PACKAGES += $(ALSA_HARDWARE)
 PRODUCT_PACKAGES += $(ALSA_UCM)
 PRODUCT_PACKAGES += $(ANGLE)
@@ -895,13 +904,7 @@ PRODUCT_PACKAGES += android.hidl.manager@1.0-java
 PRODUCT_PACKAGES += android.hardware.drm@1.0-impl
 PRODUCT_PACKAGES += android.hardware.drm@1.0-service
 PRODUCT_PACKAGES += android.hardware.drm@1.0-service.widevine
-
-# Live Wallpapers
-PRODUCT_PACKAGES += \
-        LiveWallpapers \
-        LiveWallpapersPicker \
-        VisualizationWallpapers \
-        librs_jni
+PRODUCT_PACKAGES += librs_jni
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
