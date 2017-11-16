@@ -174,7 +174,7 @@ CHROMIUM += libwebviewchromium_plat_support
 CIMAX := libcimax_spi
 
 #CM
-CM :=CMFileManager
+#CM :=CMFileManager
 #CM += Trebuchet
 
 #CONNECTIVITY
