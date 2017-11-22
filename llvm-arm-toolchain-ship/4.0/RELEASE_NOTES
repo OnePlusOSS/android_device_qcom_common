@@ -1,0 +1,41 @@
+This is the Snapdragon LLVM ARM C/C++ compiler toolchain 4.0 release. This is 
+a cross toolchain built to run on x86 64-bit Ubuntu Linux (versions 12.04 and
+later). The Snapdragon LLVM ARM Compiler will only generate code for ARM 
+targets and will not generate code for any of the other targets supported by
+the AOSP LLVM compiler.
+
+Version 4.0 of the Snapdragon LLVM ARM Compiler includes all changes in the 
+llvm.org 4.0 release, and additionally includes patches that are post-4.0 
+llvm.org release. This version of the Snapdragon LLVM ARM toolchain includes 
+proprietary features and optimizations that are not available in the llvm.org
+release or the AOSP LLVM compiler.
+
+The Snapdragon LLVM ARM Compiler uses the integrated assembler for assembling
+and includes a full featured proprietary linker (QC Linker) for linking. For 
+Android, the QC Linker is primarily used for Link Time Optimization (LTO).
+
+The link below contains all the new features in the llvm.org 4.0 release.
+http://releases.llvm.org/4.0.0/docs/ReleaseNotes.html
+
+The Snapdragon LLVM ARM 4.0 toolchain contains all the above features, and 
+additionally contains the following key features compared to the SDLLVM 3.9 
+release:
+
+1. Compiler Features
+  - Improvements to armv7/aarch32 vector code generation
+  - Code size optimizations
+2. Security/Code Hygiene
+  - Support for whitelisting directories for static analyzer
+  - Allow blacklisting of bugs using an external file in static analyzer
+  - New options for specifying priority of static analyzer checkers 
+  - Availability of post processing script for Windows host platform
+  - New options for running the Static Analyzer on performance mode
+  - New checkers added to static analyzer
+
+This version of the Snapdragon LLVM ARM toolchain may generate additional 
+front-end warnings compared to the SDLLVM 3.9 version.  However, we expect
+it to be better performing than the 3.9 release.  We recommend using this 
+version for performance critical components (where possible).
+
+Please contact your Qualcomm Android support POC for more details or 
+documentation.
