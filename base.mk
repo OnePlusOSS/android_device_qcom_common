@@ -928,6 +928,11 @@ PRODUCT_PACKAGES += tcmiface
 # healthd libaray expanded for mode charger
 PRODUCT_PACKAGES += libhealthd.msm
 
+#Android net
+PRODUCT_PACKAGES += \
+   libandroid_net \
+   libandroid_net_32
+
 #intialise PRODUCT_PACKAGES_DEBUG list for debug modules
 PRODUCT_PACKAGES_DEBUG := init.qcom.testscripts.sh
 
