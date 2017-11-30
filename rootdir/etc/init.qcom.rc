@@ -433,6 +433,10 @@ service qcomsysd /system/vendor/bin/qcom-system-daemon
     class main
     user root
     group root diag
+    disabled
+
+on property:persist.vendor.qcomsysd.enabled=1
+    start qcomsysd
 
 service ssr_setup /system/vendor/bin/ssr_setup
     oneshot
