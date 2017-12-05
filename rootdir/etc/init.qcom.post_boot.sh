@@ -56,6 +56,7 @@ function configure_memory_parameters() {
     #
 
 ProductName=`getprop ro.product.name`
+low_ram=`getprop ro.config.low_ram`
 
 if [ "$ProductName" == "msm8996" ]; then
       # Enable Adaptive LMK
@@ -78,6 +79,7 @@ else
     # Normalized ADJ for HOME is 6. Hence multiply by 6
     # ADJ score represented as INT in LMK params, actual score can be in decimal
     # Hence add 6 considering a worst case of 0.9 conversion to INT (0.9*6).
+    # For uLMK + Memcg, this will be set as 6 since adj is zero.
     set_almk_ppr_adj=$(((set_almk_ppr_adj * 6) + 6))
     echo $set_almk_ppr_adj > /sys/module/lowmemorykiller/parameters/adj_max_shift
     echo $set_almk_ppr_adj > /sys/module/process_reclaim/parameters/min_score_adj
@@ -103,10 +105,17 @@ else
         echo "14746,18432,22118,25805,40000,55000" > /sys/module/lowmemorykiller/parameters/minfree
         echo 81250 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
     else
-        echo 50 > /sys/module/process_reclaim/parameters/pressure_min
-        echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
-        echo "15360,19200,23040,26880,34415,43737" > /sys/module/lowmemorykiller/parameters/minfree
-        echo 53059 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
+        if [ $MemTotal -le 1048576 ] && [ "$low_ram" == "true" ]; then
+            # Disable KLMK, ALMK & PPR for Go devices
+            echo 0 > /sys/module/lowmemorykiller/parameters/enable_lmk
+            echo 0 > /sys/module/lowmemorykiller/parameters/enable_adaptive_lmk
+            echo 0 > /sys/module/process_reclaim/parameters/enable_process_reclaim
+        else
+            echo 50 > /sys/module/process_reclaim/parameters/pressure_min
+            echo 512 > /sys/module/process_reclaim/parameters/per_swap_size
+            echo "15360,19200,23040,26880,34415,43737" > /sys/module/lowmemorykiller/parameters/minfree
+            echo 53059 > /sys/module/lowmemorykiller/parameters/vmpressure_file_min
+        fi
     fi
 
     configure_zram_parameters
