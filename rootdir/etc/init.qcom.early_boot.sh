@@ -303,6 +303,9 @@ case "$target" in
                         fi
                     fi
                     ;;
+                264)
+                    setprop persist.graphics.vulkan.disable true
+                    ;;
       esac
       ;;
 esac
