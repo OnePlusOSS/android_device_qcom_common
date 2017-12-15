@@ -39,13 +39,17 @@ function configure_zram_parameters() {
     # For 512MB Go device, size = 384MB
     # For 1GB Go device, size = 768MB
     # Others - 512MB size
+    # And enable lz4 zram compression for Go devices
     zram_enable=`getprop ro.vendor.qti.config.zram`
     if [ "$zram_enable" == "true" ]; then
         if [ $MemTotal -le 524288 ] && [ "$low_ram" == "true" ]; then
+            echo lz4 > /sys/block/zram0/comp_algorithm
             echo 402653184 > /sys/block/zram0/disksize
         elif [ $MemTotal -le 1048576 ] && [ "$low_ram" == "true" ]; then
+            echo lz4 > /sys/block/zram0/comp_algorithm
             echo 805306368 > /sys/block/zram0/disksize
         else
+            echo lz4 > /sys/block/zram0/comp_algorithm
             echo 536870912 > /sys/block/zram0/disksize
         fi
         mkswap /dev/block/zram0
