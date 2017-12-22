@@ -8,13 +8,16 @@ $(call inherit-product-if-exists, $(QCPATH)/common/config/device-vendor.mk)
 ifeq ($(TARGET_HAS_LOW_RAM),true)
     PRODUCT_PROPERTY_OVERRIDES += \
         keyguard.no_require_sim=true \
-        ro.com.android.dataroaming=true
+        ro.com.android.dataroaming=true \
+        persist.vendor.qcomsysd.enabled=0
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/telephony.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/generic.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/locales_full.mk)
 else
     $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+    PRODUCT_PROPERTY_OVERRIDES += \
+        persist.vendor.qcomsysd.enabled=1
 endif
 
 PRODUCT_BRAND := qcom
