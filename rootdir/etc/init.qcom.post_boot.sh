@@ -961,7 +961,6 @@ case "$target" in
         esac
         # Set Memory parameters
         configure_memory_parameters
-        restorecon -R /sys/devices/system/cpu
     ;;
 esac
 
@@ -1349,7 +1348,6 @@ case "$target" in
         esac
         #Enable Memory Features
         enable_memory_features
-        restorecon -R /sys/devices/system/cpu
     ;;
 esac
 
@@ -1369,7 +1367,7 @@ case "$target" in
         fi
 
         case "$soc_id" in
-            "293" | "304" | "338" )
+            "293" | "304" | "338" | "351" )
 
                 # Start Host based Touch processing
                 case "$hw_platform" in
@@ -2976,7 +2974,6 @@ case "$target" in
 
         # Set Memory parameters
         configure_memory_parameters
-        restorecon -R /sys/devices/system/cpu
 	;;
 esac
 
@@ -3068,7 +3065,12 @@ case "$target" in
         echo 128 > /sys/block/mmcblk0rpmb/bdi/read_ahead_kb
         echo 128 > /sys/block/mmcblk0rpmb/queue/read_ahead_kb
         setprop sys.post_boot.parsed 1
+
+        low_ram_enable=`getprop ro.config.low_ram`
+
+        if [ "$low_ram_enable" != "true" ]; then
         start gamed
+        fi
     ;;
     "msm8974")
         start mpdecision
