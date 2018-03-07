@@ -618,7 +618,7 @@ NQ_NFC += com.android.nfc_extras
 NQ_NFC += vendor.nxp.hardware.nfc@1.0-impl
 NQ_NFC += android.hardware.nfc@1.0-impl
 NQ_NFC += vendor.nxp.hardware.nfc@1.0-service
-PRODUCT_PROPERTY_OVERRIDES += ro.hardware.nfc_nci=nqx.default
+# PRODUCT_PROPERTY_OVERRIDES += ro.hardware.nfc_nci=nqx.default
 
 #OPENCORE
 OPENCORE := libomx_aacdec_sharedlibrary
@@ -797,9 +797,7 @@ PRODUCT_PACKAGES := \
     VideoEditor \
     SnapdragonGallery \
     SnapdragonLauncher \
-    SnapdragonMusic \
-    a4wpservice \
-    wipowerservice
+    SnapdragonMusic
 
 ifeq ($(TARGET_HAS_LOW_RAM),true)
     DELAUN := Launcher3Go
@@ -1071,7 +1069,7 @@ PRODUCT_BOOT_JARS += com.qualcomm.qti.camera
 endif
 
 # Preloading QPerformance jar to ensure faster perflocks in Boost Framework
-PRODUCT_BOOT_JARS += QPerformance
+#PRODUCT_BOOT_JARS += QPerformance
 
 # OEM Unlock reporting
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
