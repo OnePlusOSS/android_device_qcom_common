@@ -783,7 +783,7 @@ IMS_EXT := ims-ext-common
 IMS_EXT += ConfURIDialer
 
 #Android Telephony library
-PRODUCT_BOOT_JARS += qtiNetworkLib
+#PRODUCT_BOOT_JARS += qtiNetworkLib
 
 #CRDA
 CRDA := crda
@@ -1127,15 +1127,15 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES+= \
 endif
 
 #Camera QC extends API
-ifeq ($(strip $(TARGET_USES_QTIC_EXTENSION)),true)
-PRODUCT_BOOT_JARS += com.qualcomm.qti.camera
-endif
+#ifeq ($(strip $(TARGET_USES_QTIC_EXTENSION)),true)
+#PRODUCT_BOOT_JARS += com.qualcomm.qti.camera
+#endif
 
 # Preloading QPerformance jar to ensure faster perflocks in Boost Framework
-PRODUCT_BOOT_JARS += QPerformance
+#PRODUCT_BOOT_JARS += QPerformance
 
 # Preloading UxPerformance jar to ensure faster UX invoke in Boost Framework
-PRODUCT_BOOT_JARS += UxPerformance
+#PRODUCT_BOOT_JARS += UxPerformance
 
 # OEM Unlock reporting
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
